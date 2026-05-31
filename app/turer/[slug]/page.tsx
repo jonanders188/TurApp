@@ -6,6 +6,7 @@ import { SuitabilityBadge } from '@/components/ui/SuitabilityBadge';
 import { LiveWeatherCard } from '@/components/LiveWeatherCard';
 import { SaveTrailButton } from '@/components/SaveTrailButton';
 import { AccessibilityReportForm } from '@/components/AccessibilityReportForm';
+import { NearbyAmenitiesCard } from '@/components/NearbyAmenitiesCard';
 import { getSuitabilityTags, getTrailBySlug } from '@/lib/trails';
 import { hasRealRoute } from '@/lib/geo';
 import { googleMapsLabelForTrail, googleMapsUrlForTrail, shouldUseGoogleDirections } from '@/lib/googleMaps';
@@ -63,7 +64,10 @@ export default async function TrailDetailPage({ params }: { params: Promise<{ sl
           </div>
 
           <div className="grid gap-5 border-t border-emerald-900/10 p-6 md:grid-cols-[0.9fr_1.1fr] md:p-8">
-            <LiveWeatherCard lat={trail.lat} lng={trail.lng} compact />
+            <div className="grid gap-5">
+              <LiveWeatherCard lat={trail.lat} lng={trail.lng} compact />
+              <NearbyAmenitiesCard lat={trail.lat} lng={trail.lng} />
+            </div>
             <section className="rounded-[1.8rem] bg-slate-50 p-5 ring-1 ring-slate-900/5">
               <div className="flex items-start justify-between gap-4">
                 <div>

@@ -331,28 +331,30 @@ function chunk<T>(arr: T[], size: number) {
   return chunks;
 }
 
-async function cleanupAppTrails(supabase: SupabaseClient<any, any, any>) {
-  await supabase.from('trails').delete().is('source', null);
-  await supabase.from('trails').delete().eq('source', 'local-json');
-  await supabase.from('trails').delete().eq('source', 'demo');
-  await supabase.from('trails').delete().in('source', ['kartverket_turrutebasen_wfs', 'kartverket_turrutebasen_live']).eq('route_type', 'Turrute');
-  await supabase.from('trails').delete().in('source', ['kartverket_turrutebasen_wfs', 'kartverket_turrutebasen_live']).eq('route_type', 'Annen rute');
-  await supabase.from('trails').delete().in('source', ['kartverket_turrutebasen_wfs', 'kartverket_turrutebasen_live']).eq('route_type', 'Sjø-/padlerute');
-  await supabase.from('trails').delete().lt('distance_km', 1.2);
+async function hidePreviouslyImportedAppTrails(supabase: SupabaseClient<any, any, any>) {
+  // v9: Turrutebasen is raw route infrastructure, not product-ready trips.
+  // Keep rows if they exist, but hide them from product views.
+  try {
+    await supabase
+      .from('trails')
+      .update({ published: false, curated: false })
+      .in('source', ['kartverket_turrutebasen_wfs', 'kartverket_turrutebasen_live']);
+  } catch {
+    // Older schemas may not have published yet. The curated migration adds it.
+  }
 }
 
 export async function upsertTurrutebasenImport(supabase: SupabaseClient<any, any, any>, payload: Awaited<ReturnType<typeof fetchTurrutebasenVestfold>>) {
-  await cleanupAppTrails(supabase);
+  await hidePreviouslyImportedAppTrails(supabase);
 
   for (const rows of chunk(payload.rawRows, 100)) {
     const { error } = await supabase.from('raw_turruter').upsert(rows, { onConflict: 'source,source_id' });
     if (error) throw error;
   }
 
-  for (const rows of chunk(payload.trails as any[], 100)) {
-    const { error } = await supabase.from('trails').upsert(rows, { onConflict: 'id' });
-    if (error) throw error;
-  }
+  // Do NOT upsert payload.trails into public.trails in v9.
+  // Imported WFS features are often segments (A -> B) and not finished round-trip suggestions.
+  // Product-facing trails are curated in 009_curated_vestfold_app_trails.sql.
 
   try {
     await supabase.from('import_runs').insert({
@@ -360,12 +362,12 @@ export async function upsertTurrutebasenImport(supabase: SupabaseClient<any, any
       status: payload.errors.length ? 'completed_with_warnings' : 'completed',
       bbox: payload.bbox,
       feature_count: payload.rawRows.length,
-      trail_count: payload.trails.length,
+      trail_count: 0,
       error: payload.errors.length ? JSON.stringify(payload.errors.slice(0, 5)) : null,
     });
   } catch {
     // import_runs is helpful, but optional if the SQL patch has not been run yet.
   }
 
-  return { rawRows: payload.rawRows.length, trails: payload.trails.length };
+  return { rawRows: payload.rawRows.length, trails: 0 };
 }

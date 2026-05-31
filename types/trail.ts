@@ -34,8 +34,11 @@ export type Trail = {
   lng: number | null;
   route_geojson?: RouteGeoJson | null;
   source?: string | null;
+  source_category?: string | null;
   source_route_id?: string | null;
   curated?: boolean;
+  published?: boolean;
+  is_demo?: boolean;
   accessibility_verified_at?: string | null;
   data_quality_note?: string | null;
   created_at?: string;

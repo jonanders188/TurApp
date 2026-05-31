@@ -49,7 +49,8 @@ export async function POST(request: Request) {
         bbox: imported.bbox,
         layersTried: imported.layers.map((layer) => layer.name),
         rawFeatureCount: imported.rawRows.length,
-        trailCount: imported.trails.length,
+        candidateTrailCount: imported.trails.length,
+        trailCount: 0,
         sampleTrails: imported.trails.slice(0, 5),
         errors: imported.errors,
       });
@@ -63,6 +64,7 @@ export async function POST(request: Request) {
       bbox: imported.bbox,
       layersTried: imported.layers.map((layer) => layer.name),
       saved,
+      note: 'v9: Importen lagrer rå Turrutebasen-ruter i raw_turruter. Produkt-turer kommer fra kuratert Vestfold-datasett.',
       errors: imported.errors,
     });
   } catch (error) {

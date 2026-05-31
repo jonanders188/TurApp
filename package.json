@@ -23,7 +23,8 @@
     "turrutebasen:seed": "node scripts/seed-turrutebasen-data.mjs",
     "turrutebasen:all": "npm run turrutebasen:import:vestfold && npm run turrutebasen:build-trails",
     "turrutebasen:live-api": "node scripts/run-live-turrutebasen-import.mjs",
-    "turrutebasen:live-api:dry-run": "node scripts/run-live-turrutebasen-import.mjs --dry-run"
+    "turrutebasen:live-api:dry-run": "node scripts/run-live-turrutebasen-import.mjs --dry-run",
+    "curated:seed": "node scripts/seed-curated-vestfold.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

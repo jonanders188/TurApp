@@ -47,7 +47,7 @@ export default async function TrailsPage({ searchParams }: { searchParams?: Prom
             <p className="mt-7 text-xs font-black uppercase tracking-[0.25em] text-emerald-700">Vestfold</p>
             <h1 className="mt-3 text-5xl font-black tracking-tight md:text-7xl">Turer nær deg</h1>
             <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
-              Filtrer på behov som barnevogn, bæremeis, rullestol, barn, hund og lette nærturer. Nå med ekte rutegeometri fra Kartverket/Turrutebasen. Demo-turene er skjult fra produktvisningen.
+              Filtrer på behov som barnevogn, bæremeis, rullestol, barn, hund og lette nærturer. Appen viser kuraterte turforslag først. Rå Turrutebasen-data og OSM brukes som datagrunnlag, ikke som ukritiske ferdigturer.
             </p>
             <div className="mt-6"><SearchBar /></div>
           </div>

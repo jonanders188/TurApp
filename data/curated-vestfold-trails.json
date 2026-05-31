@@ -1,0 +1,1182 @@
+[
+  {
+    "id": "verdens-ende-kort-tur",
+    "slug": "verdens-ende-kort-tur",
+    "name": "Verdens Ende kort tur",
+    "municipality": "Færder",
+    "area": "Tjøme",
+    "distance_km": 1.6,
+    "estimated_minutes": 35,
+    "difficulty": "Lett",
+    "route_type": "Kort rundtur",
+    "trail_mode": "walking",
+    "surface_type": "Grus, asfalt og svaberg",
+    "elevation_gain_m": 20,
+    "suitable_stroller": true,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": true,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": true,
+    "has_viewpoint": true,
+    "tags": [
+      "Kyst",
+      "Utsikt",
+      "Tilgjengelig",
+      "Kort tur"
+    ],
+    "description": "Kort og vakker tur ytterst mot havet. Passer godt når du vil ha stor naturopplevelse uten lang distanse.",
+    "image_url": null,
+    "lat": 59.0529,
+    "lng": 10.4106,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.4106,
+          59.0529
+        ],
+        [
+          10.4145,
+          59.0537
+        ],
+        [
+          10.4167,
+          59.0518
+        ],
+        [
+          10.4122,
+          59.0508
+        ],
+        [
+          10.4106,
+          59.0529
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "bokeskogen-rundtur",
+    "slug": "bokeskogen-rundtur",
+    "name": "Bøkeskogen rundtur",
+    "municipality": "Larvik",
+    "area": "Larvik sentrum",
+    "distance_km": 2.5,
+    "estimated_minutes": 45,
+    "difficulty": "Lett",
+    "route_type": "Rundtur",
+    "trail_mode": "walking",
+    "surface_type": "Grusvei og bred sti",
+    "elevation_gain_m": 35,
+    "suitable_stroller": true,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": false,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": true,
+    "has_viewpoint": false,
+    "tags": [
+      "Skog",
+      "Skygge",
+      "Barn",
+      "Lett å gå"
+    ],
+    "description": "Rolig rundtur i den historiske bøkeskogen. Fin for småbarn, hundelufting og en lavterskel tur nær sentrum.",
+    "image_url": null,
+    "lat": 59.0556,
+    "lng": 10.0351,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.0351,
+          59.0556
+        ],
+        [
+          10.0392,
+          59.0578
+        ],
+        [
+          10.044,
+          59.0555
+        ],
+        [
+          10.042,
+          59.0521
+        ],
+        [
+          10.036,
+          59.0527
+        ],
+        [
+          10.0351,
+          59.0556
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "karljohansvern-runden",
+    "slug": "karljohansvern-runden",
+    "name": "Karljohansvern-runden",
+    "municipality": "Horten",
+    "area": "Karljohansvern",
+    "distance_km": 3.1,
+    "estimated_minutes": 60,
+    "difficulty": "Lett",
+    "route_type": "Rundtur",
+    "trail_mode": "walking",
+    "surface_type": "Asfalt og grus",
+    "elevation_gain_m": 15,
+    "suitable_stroller": true,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": true,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": true,
+    "has_viewpoint": true,
+    "tags": [
+      "Kyst",
+      "Kultur",
+      "Kafé i nærheten",
+      "Tilgjengelig"
+    ],
+    "description": "Bynær runde med sjø, kulturmiljø og korte avstikkere. God demo-tur fordi start/slutt er enkel og ruten er lett å forstå.",
+    "image_url": null,
+    "lat": 59.4263,
+    "lng": 10.4844,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.4844,
+          59.4263
+        ],
+        [
+          10.4908,
+          59.4285
+        ],
+        [
+          10.4955,
+          59.4248
+        ],
+        [
+          10.4912,
+          59.4209
+        ],
+        [
+          10.4848,
+          59.4222
+        ],
+        [
+          10.4844,
+          59.4263
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "borrehaugene-kultursti",
+    "slug": "borrehaugene-kultursti",
+    "name": "Borrehaugene kultursti",
+    "municipality": "Horten",
+    "area": "Borre",
+    "distance_km": 2.2,
+    "estimated_minutes": 45,
+    "difficulty": "Lett",
+    "route_type": "Rundtur",
+    "trail_mode": "walking",
+    "surface_type": "Grus og gress",
+    "elevation_gain_m": 25,
+    "suitable_stroller": true,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": true,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": false,
+    "has_viewpoint": true,
+    "tags": [
+      "Kultur",
+      "Åpent landskap",
+      "Barn",
+      "Historie"
+    ],
+    "description": "Lett tur i åpent historisk landskap. Passer godt som kort familietur med god plass og enkel orientering.",
+    "image_url": null,
+    "lat": 59.3814,
+    "lng": 10.4686,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.4686,
+          59.3814
+        ],
+        [
+          10.4732,
+          59.3832
+        ],
+        [
+          10.4768,
+          59.3802
+        ],
+        [
+          10.4725,
+          59.3775
+        ],
+        [
+          10.4679,
+          59.3785
+        ],
+        [
+          10.4686,
+          59.3814
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "ilene-fugletarn",
+    "slug": "ilene-fugletarn",
+    "name": "Ilene naturreservat til fugletårnet",
+    "municipality": "Tønsberg",
+    "area": "Ilene",
+    "distance_km": 2.0,
+    "estimated_minutes": 40,
+    "difficulty": "Lett",
+    "route_type": "Tur-retur",
+    "trail_mode": "walking",
+    "surface_type": "Grus og tredekke",
+    "elevation_gain_m": 5,
+    "suitable_stroller": true,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": true,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": false,
+    "has_parking": true,
+    "has_toilet": false,
+    "has_viewpoint": true,
+    "tags": [
+      "Fugletitting",
+      "Flatt",
+      "Naturreservat",
+      "Tilgjengelig"
+    ],
+    "description": "Flat og rolig tur med fugletårn og natur tett på byen. God for barnevogn og korte pauser underveis.",
+    "image_url": null,
+    "lat": 59.2797,
+    "lng": 10.3716,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.3716,
+          59.2797
+        ],
+        [
+          10.3675,
+          59.2804
+        ],
+        [
+          10.3637,
+          59.2812
+        ],
+        [
+          10.3606,
+          59.2816
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "slottsfjellet-rundt",
+    "slug": "slottsfjellet-rundt",
+    "name": "Slottsfjellet rundt",
+    "municipality": "Tønsberg",
+    "area": "Sentrum",
+    "distance_km": 1.8,
+    "estimated_minutes": 40,
+    "difficulty": "Lett / middels",
+    "route_type": "Rundtur",
+    "trail_mode": "walking",
+    "surface_type": "Asfalt, grus og sti",
+    "elevation_gain_m": 55,
+    "suitable_stroller": false,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": false,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": true,
+    "has_viewpoint": true,
+    "tags": [
+      "Utsikt",
+      "Kultur",
+      "Kort tur",
+      "Bytur"
+    ],
+    "description": "Kort bynær tur med historie og utsikt. Litt stigning gjør den best for gående barn eller bæremeis fremfor tung barnevogn.",
+    "image_url": null,
+    "lat": 59.2699,
+    "lng": 10.4073,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.4073,
+          59.2699
+        ],
+        [
+          10.4104,
+          59.2714
+        ],
+        [
+          10.4132,
+          59.2695
+        ],
+        [
+          10.4111,
+          59.2672
+        ],
+        [
+          10.4079,
+          59.2677
+        ],
+        [
+          10.4073,
+          59.2699
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "molen-kysttur",
+    "slug": "molen-kysttur",
+    "name": "Mølen kysttur",
+    "municipality": "Larvik",
+    "area": "Brunlanes",
+    "distance_km": 2.3,
+    "estimated_minutes": 50,
+    "difficulty": "Lett / middels",
+    "route_type": "Tur-retur / rundtur",
+    "trail_mode": "walking",
+    "surface_type": "Sti og rullestein",
+    "elevation_gain_m": 25,
+    "suitable_stroller": false,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": false,
+    "suitable_easy_walk": false,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": true,
+    "has_viewpoint": true,
+    "tags": [
+      "Havutsikt",
+      "Geologi",
+      "Bæremeis",
+      "Ikke barnevogn hele veien"
+    ],
+    "description": "Spektakulær kysttur med rullestein og åpent hav. Best med bæremeis eller større barn, ikke som primær barnevogntur.",
+    "image_url": null,
+    "lat": 58.9691,
+    "lng": 9.8261,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          9.8261,
+          58.9691
+        ],
+        [
+          9.8325,
+          58.9698
+        ],
+        [
+          9.8362,
+          58.9675
+        ],
+        [
+          9.8314,
+          58.9658
+        ],
+        [
+          9.8261,
+          58.9691
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "stavern-kyststi-kort",
+    "slug": "stavern-kyststi-kort",
+    "name": "Stavern kyststi kort runde",
+    "municipality": "Larvik",
+    "area": "Stavern",
+    "distance_km": 3.4,
+    "estimated_minutes": 70,
+    "difficulty": "Lett / middels",
+    "route_type": "Tur-retur",
+    "trail_mode": "walking",
+    "surface_type": "Kyststi, grus og svaberg",
+    "elevation_gain_m": 45,
+    "suitable_stroller": false,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": false,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": false,
+    "has_viewpoint": true,
+    "tags": [
+      "Kyststi",
+      "Sjøutsikt",
+      "Barn",
+      "Bæremeis"
+    ],
+    "description": "Kort kyststi-etappe med sjøutsikt og fine stopp. Velg denne når dere tåler litt ujevnt underlag.",
+    "image_url": null,
+    "lat": 58.9992,
+    "lng": 10.0344,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.0344,
+          58.9992
+        ],
+        [
+          10.0392,
+          58.9968
+        ],
+        [
+          10.0451,
+          58.9952
+        ],
+        [
+          10.0494,
+          58.9966
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "holmestrand-fjordpromenade",
+    "slug": "holmestrand-fjordpromenade",
+    "name": "Holmestrand fjordpromenade",
+    "municipality": "Holmestrand",
+    "area": "Sentrum",
+    "distance_km": 2.6,
+    "estimated_minutes": 45,
+    "difficulty": "Lett",
+    "route_type": "Tur-retur",
+    "trail_mode": "walking",
+    "surface_type": "Asfalt og promenade",
+    "elevation_gain_m": 10,
+    "suitable_stroller": true,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": true,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": true,
+    "has_viewpoint": true,
+    "tags": [
+      "Promenade",
+      "Fjord",
+      "Tilgjengelig",
+      "Kort tur"
+    ],
+    "description": "Flat fjordtur med enkel adkomst. God for rullestol, barnevogn og korte turer etter jobb eller barnehage.",
+    "image_url": null,
+    "lat": 59.4872,
+    "lng": 10.3147,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.3147,
+          59.4872
+        ],
+        [
+          10.3194,
+          59.4893
+        ],
+        [
+          10.3245,
+          59.4907
+        ],
+        [
+          10.3292,
+          59.4918
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "eidsfoss-kultursti",
+    "slug": "eidsfoss-kultursti",
+    "name": "Eidsfoss kultursti",
+    "municipality": "Holmestrand",
+    "area": "Eidsfoss",
+    "distance_km": 2.4,
+    "estimated_minutes": 50,
+    "difficulty": "Lett",
+    "route_type": "Rundtur",
+    "trail_mode": "walking",
+    "surface_type": "Grus og asfalt",
+    "elevation_gain_m": 20,
+    "suitable_stroller": true,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": false,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": false,
+    "has_viewpoint": true,
+    "tags": [
+      "Kultur",
+      "Vann",
+      "Familievennlig",
+      "Rolig"
+    ],
+    "description": "Koselig tur med kulturmiljø, vann og korte avstander. Passer fint som søndagstur med barn.",
+    "image_url": null,
+    "lat": 59.5935,
+    "lng": 10.0362,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.0362,
+          59.5935
+        ],
+        [
+          10.0415,
+          59.5948
+        ],
+        [
+          10.0442,
+          59.5916
+        ],
+        [
+          10.0395,
+          59.5898
+        ],
+        [
+          10.0362,
+          59.5935
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "hjertnesstranda-promenade",
+    "slug": "hjertnesstranda-promenade",
+    "name": "Hjertnesstranda promenade",
+    "municipality": "Sandefjord",
+    "area": "Sentrum",
+    "distance_km": 2.1,
+    "estimated_minutes": 40,
+    "difficulty": "Lett",
+    "route_type": "Tur-retur",
+    "trail_mode": "walking",
+    "surface_type": "Asfalt og promenade",
+    "elevation_gain_m": 8,
+    "suitable_stroller": true,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": true,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": true,
+    "has_viewpoint": true,
+    "tags": [
+      "Promenade",
+      "Strand",
+      "Tilgjengelig",
+      "Sentrum"
+    ],
+    "description": "Lavterskel tur langs vannet nær sentrum. God for barnevogn, rullestol og en kort luftetur.",
+    "image_url": null,
+    "lat": 59.1312,
+    "lng": 10.2264,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.2264,
+          59.1312
+        ],
+        [
+          10.2303,
+          59.1304
+        ],
+        [
+          10.2345,
+          59.1295
+        ],
+        [
+          10.2392,
+          59.1288
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "midtasen-rundtur",
+    "slug": "midtasen-rundtur",
+    "name": "Midtåsen rundtur",
+    "municipality": "Sandefjord",
+    "area": "Midtåsen",
+    "distance_km": 2.0,
+    "estimated_minutes": 45,
+    "difficulty": "Lett / middels",
+    "route_type": "Rundtur",
+    "trail_mode": "walking",
+    "surface_type": "Grus, sti og parkvei",
+    "elevation_gain_m": 45,
+    "suitable_stroller": false,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": false,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": false,
+    "has_viewpoint": true,
+    "tags": [
+      "Utsikt",
+      "Park",
+      "Kort tur",
+      "Barn"
+    ],
+    "description": "Kort tur i park- og skogpreg med utsikt. Noe stigning gjør den best for gående eller bæremeis.",
+    "image_url": null,
+    "lat": 59.1196,
+    "lng": 10.2052,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.2052,
+          59.1196
+        ],
+        [
+          10.2093,
+          59.1212
+        ],
+        [
+          10.2125,
+          59.1191
+        ],
+        [
+          10.2101,
+          59.1164
+        ],
+        [
+          10.2052,
+          59.1196
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "bugardsparken-rundtur",
+    "slug": "bugardsparken-rundtur",
+    "name": "Bugårdsparken rundtur",
+    "municipality": "Sandefjord",
+    "area": "Bugården",
+    "distance_km": 1.9,
+    "estimated_minutes": 35,
+    "difficulty": "Lett",
+    "route_type": "Rundtur",
+    "trail_mode": "walking",
+    "surface_type": "Asfalt og grus",
+    "elevation_gain_m": 5,
+    "suitable_stroller": true,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": true,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": true,
+    "has_viewpoint": false,
+    "tags": [
+      "Park",
+      "Flatt",
+      "Barn",
+      "Tilgjengelig"
+    ],
+    "description": "Enkel park- og nærtur med kort avstand, flatt underlag og mange muligheter for pause.",
+    "image_url": null,
+    "lat": 59.1363,
+    "lng": 10.2017,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.2017,
+          59.1363
+        ],
+        [
+          10.2055,
+          59.1377
+        ],
+        [
+          10.2084,
+          59.1351
+        ],
+        [
+          10.2044,
+          59.1335
+        ],
+        [
+          10.2017,
+          59.1363
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "teieskogen-runde",
+    "slug": "teieskogen-runde",
+    "name": "Teieskogen runde",
+    "municipality": "Færder",
+    "area": "Nøtterøy",
+    "distance_km": 2.7,
+    "estimated_minutes": 55,
+    "difficulty": "Lett",
+    "route_type": "Rundtur",
+    "trail_mode": "walking",
+    "surface_type": "Grusvei og skogssti",
+    "elevation_gain_m": 30,
+    "suitable_stroller": true,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": false,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": false,
+    "has_viewpoint": false,
+    "tags": [
+      "Skog",
+      "Nærtur",
+      "Barn",
+      "Lett å gå"
+    ],
+    "description": "Enkel skogstur nær boligområder. Fin for hverdagslogistikk når dere bare trenger en tur som fungerer.",
+    "image_url": null,
+    "lat": 59.2515,
+    "lng": 10.4256,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.4256,
+          59.2515
+        ],
+        [
+          10.4312,
+          59.2534
+        ],
+        [
+          10.4361,
+          59.2506
+        ],
+        [
+          10.4321,
+          59.2478
+        ],
+        [
+          10.426,
+          59.2488
+        ],
+        [
+          10.4256,
+          59.2515
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "moutmarka-kort-runde",
+    "slug": "moutmarka-kort-runde",
+    "name": "Moutmarka kort runde",
+    "municipality": "Færder",
+    "area": "Tjøme",
+    "distance_km": 3.2,
+    "estimated_minutes": 70,
+    "difficulty": "Lett / middels",
+    "route_type": "Rundtur",
+    "trail_mode": "walking",
+    "surface_type": "Sti og kystterreng",
+    "elevation_gain_m": 45,
+    "suitable_stroller": false,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": false,
+    "suitable_easy_walk": false,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": false,
+    "has_viewpoint": true,
+    "tags": [
+      "Kyst",
+      "Naturreservat",
+      "Bæremeis",
+      "Utsikt"
+    ],
+    "description": "Kystnær runde med naturpreg og utsikt. Velg bæremeis eller gående barn, ikke barnevogn.",
+    "image_url": null,
+    "lat": 59.0798,
+    "lng": 10.3946,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.3946,
+          59.0798
+        ],
+        [
+          10.4008,
+          59.0815
+        ],
+        [
+          10.4048,
+          59.0787
+        ],
+        [
+          10.3994,
+          59.0756
+        ],
+        [
+          10.3946,
+          59.0798
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "asgardsstrand-promenade",
+    "slug": "asgardsstrand-promenade",
+    "name": "Åsgårdstrand strandpromenade",
+    "municipality": "Horten",
+    "area": "Åsgårdstrand",
+    "distance_km": 2.0,
+    "estimated_minutes": 40,
+    "difficulty": "Lett",
+    "route_type": "Tur-retur",
+    "trail_mode": "walking",
+    "surface_type": "Asfalt og grus",
+    "elevation_gain_m": 10,
+    "suitable_stroller": true,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": true,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": true,
+    "has_viewpoint": true,
+    "tags": [
+      "Kyst",
+      "Promenade",
+      "Tilgjengelig",
+      "Kort tur"
+    ],
+    "description": "Rolig promenade med sjøutsikt og enkel adkomst. God første tur i appen fordi den er lett å forstå og lett å gjennomføre.",
+    "image_url": null,
+    "lat": 59.3498,
+    "lng": 10.4674,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.4674,
+          59.3498
+        ],
+        [
+          10.4714,
+          59.3478
+        ],
+        [
+          10.4758,
+          59.3459
+        ],
+        [
+          10.4795,
+          59.3442
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "folehavna-kysttur",
+    "slug": "folehavna-kysttur",
+    "name": "Folehavna kysttur",
+    "municipality": "Sandefjord",
+    "area": "Vesterøya",
+    "distance_km": 3.0,
+    "estimated_minutes": 65,
+    "difficulty": "Lett / middels",
+    "route_type": "Tur-retur",
+    "trail_mode": "walking",
+    "surface_type": "Sti og kystterreng",
+    "elevation_gain_m": 40,
+    "suitable_stroller": false,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": false,
+    "suitable_easy_walk": false,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": false,
+    "has_viewpoint": true,
+    "tags": [
+      "Kyst",
+      "Utsikt",
+      "Bæremeis",
+      "Ikke barnevogn"
+    ],
+    "description": "Flott kysttur på Vesterøya med åpent landskap og utsikt. Ikke primært for barnevogn, men fin med bæremeis.",
+    "image_url": null,
+    "lat": 59.0558,
+    "lng": 10.2132,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.2132,
+          59.0558
+        ],
+        [
+          10.2188,
+          59.0565
+        ],
+        [
+          10.2225,
+          59.0535
+        ],
+        [
+          10.217,
+          59.0514
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  },
+  {
+    "id": "goksjo-kort-naturtur",
+    "slug": "goksjo-kort-naturtur",
+    "name": "Goksjø kort naturtur",
+    "municipality": "Sandefjord",
+    "area": "Goksjø",
+    "distance_km": 3.6,
+    "estimated_minutes": 75,
+    "difficulty": "Lett / middels",
+    "route_type": "Tur-retur",
+    "trail_mode": "walking",
+    "surface_type": "Grusvei og sti",
+    "elevation_gain_m": 35,
+    "suitable_stroller": false,
+    "suitable_baby_carrier": true,
+    "suitable_wheelchair": false,
+    "suitable_easy_walk": true,
+    "suitable_children": true,
+    "suitable_dog": true,
+    "has_parking": true,
+    "has_toilet": false,
+    "has_viewpoint": true,
+    "tags": [
+      "Vann",
+      "Natur",
+      "Barn",
+      "Rolig"
+    ],
+    "description": "Kort naturtur ved Goksjø-området. Egner seg når dere vil ha vann og ro, men ikke en altfor lang tur.",
+    "image_url": null,
+    "lat": 59.1744,
+    "lng": 10.1438,
+    "route_geojson": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          10.1438,
+          59.1744
+        ],
+        [
+          10.1492,
+          59.1767
+        ],
+        [
+          10.1548,
+          59.1754
+        ],
+        [
+          10.1587,
+          59.1729
+        ]
+      ]
+    },
+    "source": "curated_vestfold_v1",
+    "source_category": "curated_tour",
+    "source_route_id": null,
+    "curated": true,
+    "published": true,
+    "is_demo": false,
+    "accessibility_verified_at": null,
+    "data_quality_note": "Kuratert førsteversjon for MVP. Rutegeometri er for produktdemo og må kvalitetssikres mot lokale kartdata/feltdata før offentlig lansering."
+  }
+]

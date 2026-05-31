@@ -1,6 +1,7 @@
 import { createAdminClient } from '@/lib/supabase-admin';
 import { hasSupabaseAdminConfig } from '@/lib/env';
 import type { Trail, TrailFilters } from '@/types/trail';
+import curatedVestfoldTrails from '@/data/curated-vestfold-trails.json';
 import { isDisplayableTrail, qualityScore } from '@/lib/routeQuality';
 
 const suitabilityColumn: Record<NonNullable<TrailFilters['suitable']>, keyof Trail> = {
@@ -12,9 +13,8 @@ const suitabilityColumn: Record<NonNullable<TrailFilters['suitable']>, keyof Tra
   dog: 'suitable_dog',
 };
 
-// Demo-turene ligger fortsatt i data/ for referanse, men vises ikke i produktet.
-// Appen skal bruke Supabase/importerte Kartverket-ruter.
-export const localVestfoldTrails = [] as Trail[];
+// Produktet viser kuraterte turforslag. Rå Turrutebasen-segmenter beholdes som rådata/admin-grunnlag.
+export const localVestfoldTrails = curatedVestfoldTrails as Trail[];
 
 export function matchesTrailFilters(trail: Trail, filters: TrailFilters) {
   if (filters.municipality && trail.municipality !== filters.municipality) return false;
@@ -43,7 +43,12 @@ export async function getTrails(filters: TrailFilters = {}) {
   if (hasSupabaseAdminConfig()) {
     try {
       const supabase = createAdminClient();
-      let query = supabase.from('trails').select('*').order('name', { ascending: true });
+      let query = supabase
+        .from('trails')
+        .select('*')
+        .eq('published', true)
+        .eq('curated', true)
+        .order('name', { ascending: true });
 
       if (filters.municipality) query = query.eq('municipality', filters.municipality);
       if (filters.maxDistanceKm) query = query.lte('distance_km', filters.maxDistanceKm);
@@ -56,15 +61,20 @@ export async function getTrails(filters: TrailFilters = {}) {
           .filter((trail) => matchesTrailFilters(trail, filters))
           .filter(isDisplayableTrail)
           .sort((a, b) => qualityScore(b) - qualityScore(a) || a.name.localeCompare(b.name, 'no'));
-        return { trails, source: 'supabase' as const, error: null };
+        if (trails.length > 0) return { trails, source: 'supabase' as const, error: null };
+        const fallback = localVestfoldTrails
+          .filter((trail) => matchesTrailFilters(trail, filters))
+          .filter(isDisplayableTrail)
+          .sort((a, b) => qualityScore(b) - qualityScore(a) || a.name.localeCompare(b.name, 'no'));
+        return { trails: fallback, source: 'curated-json' as const, error: null };
       }
-      return { trails: localVestfoldTrails.filter((trail) => matchesTrailFilters(trail, filters)).filter(isDisplayableTrail), source: 'local-json' as const, error: error?.message ?? null };
+      return { trails: localVestfoldTrails.filter((trail) => matchesTrailFilters(trail, filters)).filter(isDisplayableTrail), source: 'curated-json' as const, error: error?.message ?? null };
     } catch (error) {
-      return { trails: localVestfoldTrails.filter((trail) => matchesTrailFilters(trail, filters)).filter(isDisplayableTrail), source: 'local-json' as const, error: error instanceof Error ? error.message : String(error) };
+      return { trails: localVestfoldTrails.filter((trail) => matchesTrailFilters(trail, filters)).filter(isDisplayableTrail), source: 'curated-json' as const, error: error instanceof Error ? error.message : String(error) };
     }
   }
 
-  return { trails: localVestfoldTrails.filter((trail) => matchesTrailFilters(trail, filters)).filter(isDisplayableTrail), source: 'local-json' as const, error: null };
+  return { trails: localVestfoldTrails.filter((trail) => matchesTrailFilters(trail, filters)).filter(isDisplayableTrail), source: 'curated-json' as const, error: null };
 }
 
 export async function getTrailBySlug(slug: string) {

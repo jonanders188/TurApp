@@ -227,3 +227,9 @@ npm run turrutebasen:seed
 ```
 
 Then run SQL patch `008_v7_classify_routes_remove_demos.sql` if you have not already done so.
+
+## v9 datastrategi
+
+Fra v9 viser appen kuraterte Vestfold-turer fra `data/curated-vestfold-trails.json` / `supabase/migrations/202605300009_curated_vestfold_app_trails.sql`.
+
+Turrutebasen-importen beholdes som rådata i `raw_turruter`, men publiserer ikke råsegmenter direkte som app-turer. Praktiske punkter rundt turstart hentes fra OpenStreetMap/Overpass via `/api/amenities`.

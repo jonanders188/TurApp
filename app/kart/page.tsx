@@ -28,9 +28,9 @@ export default async function MapPage() {
 
         <header className="mt-8 rounded-[2.4rem] bg-emerald-950 p-6 text-white shadow-2xl shadow-emerald-950/15 md:p-9">
           <p className="text-xs font-black uppercase tracking-[0.26em] text-emerald-200">Kart</p>
-          <h1 className="mt-3 text-5xl font-black tracking-tight md:text-7xl">Levende turkart</h1>
+          <h1 className="mt-3 text-5xl font-black tracking-tight md:text-7xl">Kuratert turkart</h1>
           <p className="mt-4 max-w-3xl text-base leading-8 text-emerald-50">
-            Her vises ruter som faktisk ligger i appdatabasen. Når Turrutebasen-importen kjøres, dukker ekte Kartverket-ruter opp her og på tursidene.
+            Her vises de kuraterte turene som appen faktisk anbefaler. Rå Turrutebasen-data ligger som datagrunnlag i admin, men publiseres ikke direkte som turforslag.
           </p>
         </header>
 
@@ -47,7 +47,7 @@ export default async function MapPage() {
 
         {realRoutes.length === 0 ? (
           <section className="mt-8 rounded-[2rem] bg-amber-50 p-6 text-amber-950 ring-1 ring-amber-200">
-            <h2 className="text-2xl font-black">Ingen importerte app-ruter ennå</h2>
+            <h2 className="text-2xl font-black">Ingen publiserte kuraterte turer ennå</h2>
             <p className="mt-2 leading-7">
               Appen viser ingen godkjente app-ruter ennå. Kjør Turrutebasen-importen, så får du levende rutedata fra Supabase.
             </p>
@@ -57,7 +57,7 @@ export default async function MapPage() {
           </section>
         ) : (
           <section className="mt-10">
-            <h2 className="text-3xl font-black tracking-tight">Ekte importerte ruter</h2>
+            <h2 className="text-3xl font-black tracking-tight">Kuraterte ruter</h2>
             <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {realRoutes.slice(0, 12).map((trail) => <TrailCard key={trail.id} trail={trail} />)}
             </div>
