@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { cleanImportedRouteName, describeImportedRoute, routeKindLabel, classifyTrailMode, isAppTrailMode } from '@/lib/routeQuality';
+import { cleanImportedRouteName, describeImportedRoute, routeKindLabel, classifyTrailMode, isAppTrailMode, shouldPublishImportedTrail } from '@/lib/routeQuality';
 
 export type ImportOptions = {
   bbox?: string;
@@ -200,6 +200,7 @@ async function fetchLayer(baseUrl: string, layerName: string, opts: ImportOpts) 
     const line = { type: 'LineString', coordinates: coords };
     const distance = Number(lengthKm(line).toFixed(2));
     if (distance < opts.minDistanceKm) return;
+    if (!shouldPublishImportedTrail({ name: rawName, category: rawKind, distanceKm: distance, hasRoute: true })) return;
     const name = cleanImportedRouteName(rawName, rawKind, distance);
     features.push({
       type: 'Feature',
@@ -209,10 +210,10 @@ async function fetchLayer(baseUrl: string, layerName: string, opts: ImportOpts) 
         _source_id: sourceId,
         _source_layer: layerName,
         _app_name: name,
-        _app_route_kind: routeKindLabel(rawKind),
+        _app_route_kind: rawKind,
         _app_municipality: 'Vestfold',
         name,
-        category: routeKindLabel(rawKind),
+        category: rawKind,
         layer: layerName,
         distance_km_estimated: distance,
         imported_at: new Date().toISOString(),
