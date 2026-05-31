@@ -23,6 +23,7 @@ export function TrailCard({ trail, featured = false }: { trail: Trail; featured?
   const routeSummary = getGeometryQualityMessage(trail);
   const shapeLabel = getRouteShapeLabel(trail);
   const realRoute = hasRealRoute(trail);
+  const distanceToSearch = typeof trail.distance_to_search_km === 'number' ? trail.distance_to_search_km : null;
 
   return (
     <article className={`overflow-hidden rounded-[2rem] bg-white shadow-sm ring-1 ring-emerald-900/10 transition hover:-translate-y-1 hover:shadow-xl ${featured ? 'ring-2 ring-emerald-300' : ''}`}>
@@ -35,6 +36,7 @@ export function TrailCard({ trail, featured = false }: { trail: Trail; featured?
           <Pill>{modeLabel[mode] ?? 'Tur'}</Pill>
           <Pill>{shapeLabel}</Pill>
           <Pill>{realRoute ? 'Ekte rutedata' : 'Utvalgt tur'}</Pill>
+          {distanceToSearch !== null ? <Pill>{distanceToSearch} km fra søk</Pill> : null}
         </div>
 
         <div className="mt-4 flex items-start justify-between gap-4">
@@ -53,7 +55,7 @@ export function TrailCard({ trail, featured = false }: { trail: Trail; featured?
         <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{trail.description}</p>
 
         <div className="mt-4 grid grid-cols-3 gap-2 text-sm">
-          <Metric value={trail.difficulty} label="nivå" />
+          <Metric value={distanceToSearch !== null ? `${distanceToSearch} km` : trail.difficulty} label={distanceToSearch !== null ? 'fra søk' : 'nivå'} />
           <Metric value={`${trail.elevation_gain_m ?? 0} m`} label="stigning" />
           <Metric value={trail.surface_type ?? 'Ukjent'} label="underlag" />
         </div>

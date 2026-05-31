@@ -26,8 +26,9 @@ export default async function TrailsPage({ searchParams }: { searchParams?: Prom
   const suitable = typeof params.suitable === 'string' ? params.suitable as TrailFilters['suitable'] : undefined;
   const municipality = typeof params.municipality === 'string' ? params.municipality : undefined;
   const maxDistanceKm = typeof params.maxDistanceKm === 'string' ? Number(params.maxDistanceKm) : undefined;
+  const searchPlace = typeof params.sted === 'string' ? params.sted : (typeof params.q === 'string' ? params.q : undefined);
 
-  const { trails, source, error } = await getTrails({ suitable, municipality, maxDistanceKm });
+  const { trails, source, error, place } = await getTrails({ suitable, municipality, maxDistanceKm, searchPlace });
   const { trails: allTrails } = await getTrails();
   const municipalities = getMunicipalities(allTrails);
   const featuredTrail = trails[0] ?? null;
@@ -52,7 +53,7 @@ export default async function TrailsPage({ searchParams }: { searchParams?: Prom
               <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
                 Vi viser utvalgte turer først, med tydelig rute, praktiske behov og værvindu. Når dataene er for grove, sier vi ifra i stedet for å late som kartet er mer detaljert enn det er.
               </p>
-              <div className="mt-5"><SearchBar /></div>
+              <div className="mt-5"><SearchBar defaultValue={searchPlace ?? ''} /></div>
               <div className="mt-5 flex flex-wrap gap-2">
                 {Object.entries(filterLabels).slice(1).map(([key, item]) => (
                   <FilterChip key={key} href={`/turer?suitable=${key}`} label={item.label} icon={item.icon} active={suitable === key} />
@@ -67,8 +68,8 @@ export default async function TrailsPage({ searchParams }: { searchParams?: Prom
           <section className="mt-6 rounded-[2rem] bg-white p-4 shadow-sm ring-1 ring-emerald-900/10 md:p-5">
             <div className="mb-4 flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-emerald-700">Anbefalt akkurat nå</p>
-                <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">Se formen på turen før du bestemmer deg</h2>
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-emerald-700">{place ? `Nærmest ${place.label}` : 'Anbefalt akkurat nå'}</p>
+                <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">{place ? 'Turene sortert etter avstand fra søket ditt' : 'Se formen på turen før du bestemmer deg'}</h2>
               </div>
               <Link href={`/turer/${featuredTrail.slug}`} className="rounded-full bg-emerald-950 px-4 py-2 text-sm font-black text-white hover:bg-emerald-900">Åpne</Link>
             </div>
@@ -101,6 +102,21 @@ export default async function TrailsPage({ searchParams }: { searchParams?: Prom
           <Stat value={String(detailedCount)} label="har god/detaljert rute" />
           <Stat value={source} label="datakilde" error={error ?? undefined} />
         </div>
+
+
+        {searchPlace ? (
+          <section className={`mt-6 rounded-[1.7rem] p-4 text-sm leading-6 ring-1 ${place ? 'bg-emerald-50 text-emerald-950 ring-emerald-200' : 'bg-amber-50 text-amber-950 ring-amber-200'}`}>
+            {place ? (
+              <>
+                <strong className="font-black">Søkested funnet:</strong> Viser turene nærmest {place.label}. Avstandene på kortene er luftlinje til turens startpunkt.
+              </>
+            ) : (
+              <>
+                <strong className="font-black">Fant ikke søkestedet:</strong> Prøv et sted i Vestfold, for eksempel Tønsberg, Horten, Larvik, Sandefjord eller Verdens Ende.
+              </>
+            )}
+          </section>
+        ) : null}
 
         <section className="mt-6 rounded-[1.7rem] bg-amber-50 p-4 text-sm leading-6 text-amber-950 ring-1 ring-amber-200">
           <strong className="font-black">Ærlig status på rutedata:</strong> En del av de utvalgte turene har fortsatt få rutepunkter. De fungerer fint for å velge tur og se hovedformen på turen, men ikke alle er detaljerte nok for presis stinavigasjon. Da anbefaler vi å åpne ruten i kartmodus eller bruke GPX når bedre spor er tilgjengelig.

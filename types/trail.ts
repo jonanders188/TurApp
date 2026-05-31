@@ -46,6 +46,7 @@ export type Trail = {
   quality_score?: number | null;
   created_at?: string;
   updated_at?: string;
+  distance_to_search_km?: number | null;
 };
 
 export type TrailFilters = {
@@ -53,4 +54,5 @@ export type TrailFilters = {
   suitable?: 'stroller' | 'carrier' | 'wheelchair' | 'easy' | 'children' | 'dog';
   maxDistanceKm?: number;
   maxMinutes?: number;
+  searchPlace?: string;
 };

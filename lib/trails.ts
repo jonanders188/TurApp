@@ -3,6 +3,7 @@ import { hasSupabaseAdminConfig } from '@/lib/env';
 import type { Trail, TrailFilters } from '@/types/trail';
 import curatedVestfoldTrails from '@/data/curated-vestfold-trails.json';
 import { isDisplayableTrail, qualityScore } from '@/lib/routeQuality';
+import { geocodePlace, sortTrailsByDistanceFromPlace, type GeocodedPlace } from '@/lib/geocoding';
 
 const suitabilityColumn: Record<NonNullable<TrailFilters['suitable']>, keyof Trail> = {
   stroller: 'suitable_stroller',
@@ -39,7 +40,31 @@ export function getSuitabilityTags(trail: Trail) {
   ].filter(Boolean) as string[];
 }
 
+
+async function rankTrailsForSearch(trails: Trail[], filters: TrailFilters) {
+  const query = filters.searchPlace?.trim();
+  if (!query) return { trails, place: null as GeocodedPlace | null };
+
+  const place = await geocodePlace(query);
+  if (!place) return { trails, place: null as GeocodedPlace | null };
+
+  return {
+    trails: sortTrailsByDistanceFromPlace(trails, place),
+    place,
+  };
+}
+
 export async function getTrails(filters: TrailFilters = {}) {
+  async function finalize(trails: Trail[], source: 'supabase' | 'curated-json', error: string | null = null) {
+    const filtered = trails
+      .filter((trail) => matchesTrailFilters(trail, filters))
+      .filter(isDisplayableTrail)
+      .sort((a, b) => qualityScore(b) - qualityScore(a) || a.name.localeCompare(b.name, 'no'));
+
+    const ranked = await rankTrailsForSearch(filtered, filters);
+    return { trails: ranked.trails, source, error, place: ranked.place };
+  }
+
   if (hasSupabaseAdminConfig()) {
     try {
       const supabase = createAdminClient();
@@ -47,8 +72,7 @@ export async function getTrails(filters: TrailFilters = {}) {
         .from('trails')
         .select('*')
         .eq('published', true)
-        .eq('curated', true)
-        .order('name', { ascending: true });
+        .eq('curated', true);
 
       if (filters.municipality) query = query.eq('municipality', filters.municipality);
       if (filters.maxDistanceKm) query = query.lte('distance_km', filters.maxDistanceKm);
@@ -57,24 +81,20 @@ export async function getTrails(filters: TrailFilters = {}) {
 
       const { data, error } = await query;
       if (!error && data) {
-        const trails = (data as Trail[])
-          .filter((trail) => matchesTrailFilters(trail, filters))
-          .filter(isDisplayableTrail)
-          .sort((a, b) => qualityScore(b) - qualityScore(a) || a.name.localeCompare(b.name, 'no'));
-        if (trails.length > 0) return { trails, source: 'supabase' as const, error: null };
-        const fallback = localVestfoldTrails
-          .filter((trail) => matchesTrailFilters(trail, filters))
-          .filter(isDisplayableTrail)
-          .sort((a, b) => qualityScore(b) - qualityScore(a) || a.name.localeCompare(b.name, 'no'));
-        return { trails: fallback, source: 'curated-json' as const, error: null };
+        const result = await finalize(data as Trail[], 'supabase', null);
+        if (result.trails.length > 0) return result;
+
+        // Fallback keeps the app useful if Supabase is empty or filters are too strict.
+        return finalize(localVestfoldTrails, 'curated-json', null);
       }
-      return { trails: localVestfoldTrails.filter((trail) => matchesTrailFilters(trail, filters)).filter(isDisplayableTrail), source: 'curated-json' as const, error: error?.message ?? null };
+
+      return finalize(localVestfoldTrails, 'curated-json', error?.message ?? null);
     } catch (error) {
-      return { trails: localVestfoldTrails.filter((trail) => matchesTrailFilters(trail, filters)).filter(isDisplayableTrail), source: 'curated-json' as const, error: error instanceof Error ? error.message : String(error) };
+      return finalize(localVestfoldTrails, 'curated-json', error instanceof Error ? error.message : String(error));
     }
   }
 
-  return { trails: localVestfoldTrails.filter((trail) => matchesTrailFilters(trail, filters)).filter(isDisplayableTrail), source: 'curated-json' as const, error: null };
+  return finalize(localVestfoldTrails, 'curated-json', null);
 }
 
 export async function getTrailBySlug(slug: string) {

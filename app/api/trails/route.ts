@@ -9,6 +9,9 @@ const querySchema = z.object({
   suitable: z.enum(['stroller', 'carrier', 'wheelchair', 'easy', 'children', 'dog']).optional(),
   maxDistanceKm: z.coerce.number().positive().optional(),
   maxMinutes: z.coerce.number().positive().optional(),
+  searchPlace: z.string().optional(),
+  sted: z.string().optional(),
+  q: z.string().optional(),
 });
 
 export async function GET(request: Request) {
@@ -19,6 +22,10 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Invalid query', details: parsed.error.flatten() }, { status: 400 });
   }
 
-  const result = await getTrails(parsed.data);
+  const data = parsed.data;
+  const result = await getTrails({
+    ...data,
+    searchPlace: data.searchPlace || data.sted || data.q,
+  });
   return NextResponse.json(result);
 }
