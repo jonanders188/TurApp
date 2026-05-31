@@ -26,7 +26,11 @@
     "turrutebasen:all": "npm run turrutebasen:import:vestfold && npm run turrutebasen:build-trails",
     "turrutebasen:live-api": "node scripts/run-live-turrutebasen-import.mjs",
     "turrutebasen:live-api:dry-run": "node scripts/run-live-turrutebasen-import.mjs --dry-run",
-    "curated:seed": "node scripts/seed-curated-vestfold.mjs"
+    "curated:seed": "node scripts/seed-curated-vestfold.mjs",
+    "osm:import": "node scripts/import-osm-vestfold.mjs",
+    "osm:seed": "node scripts/seed-osm-trails.mjs",
+    "osm:seed:replace-demo": "node scripts/seed-osm-trails.mjs --hide-rough-curated",
+    "osm:all": "npm run osm:import && npm run osm:seed"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

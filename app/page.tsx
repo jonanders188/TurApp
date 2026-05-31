@@ -41,7 +41,7 @@ export default async function HomePage() {
 
         <div className="mt-8 grid gap-7 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
           <section className="rounded-[2.4rem] bg-gradient-to-br from-emerald-950 via-emerald-900 to-[#12382c] p-6 text-white shadow-2xl shadow-emerald-950/20 md:p-10">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-emerald-100">Vestfold · kuraterte nærturer</p>
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-emerald-100">Vestfold · utvalgte nærturer</p>
             <h1 className="mt-5 max-w-2xl text-5xl font-black tracking-tight md:text-7xl">
               Finn turen som faktisk passer i dag.
             </h1>
@@ -69,7 +69,7 @@ export default async function HomePage() {
                 Finn barnevognvennlig
               </Link>
             </div>
-            <p className="mt-6 text-xs font-semibold text-emerald-100">Datakilde: {source === 'supabase' ? 'Supabase TurApp' : 'kuratert JSON fallback'}. Rå Turrutebasen-data brukes som grunnlag, ikke direkte som ferdige turer.</p>
+            <p className="mt-6 text-xs font-semibold text-emerald-100">Datakilde: {source === 'supabase' ? 'Supabase TurApp' : 'lokal JSON fallback'}. Rå Turrutebasen-data brukes som grunnlag, ikke direkte som ferdige turer.</p>
           </section>
 
           <section className="grid gap-5">
@@ -102,7 +102,7 @@ export default async function HomePage() {
         </section>
 
         <section className="mt-12">
-          <SectionHeader eyebrow="Utvalgte turer" title="Kuraterte Vestfold-turer" href="/turer" />
+          <SectionHeader eyebrow="Utvalgte turer" title="Utvalgte Vestfold-turer" href="/turer" />
           <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {previewTrails.map((trail, index) => <TrailCard key={trail.id} trail={trail} featured={index === 0} />)}
           </div>

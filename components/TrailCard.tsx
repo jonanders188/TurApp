@@ -34,7 +34,7 @@ export function TrailCard({ trail, featured = false }: { trail: Trail; featured?
         <div className="flex flex-wrap items-center gap-2">
           <Pill>{modeLabel[mode] ?? 'Tur'}</Pill>
           <Pill>{shapeLabel}</Pill>
-          <Pill>{realRoute ? 'Ekte rutedata' : 'Kuratert rute'}</Pill>
+          <Pill>{realRoute ? 'Ekte rutedata' : 'Utvalgt tur'}</Pill>
         </div>
 
         <div className="mt-4 flex items-start justify-between gap-4">

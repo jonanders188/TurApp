@@ -1,0 +1,6 @@
+[out:json][timeout:90];
+(
+  relation["type"="route"]["route"~"hiking|foot|walking"](58.85,9.55,59.75,10.75);
+  way["highway"~"path|footway|track|pedestrian|cycleway"]["name"](58.85,9.55,59.75,10.75);
+);
+out tags geom;

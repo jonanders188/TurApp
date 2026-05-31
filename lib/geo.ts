@@ -62,7 +62,9 @@ export function coordinatesToSvgPath(points: LngLat[], project: (point: LngLat) 
 }
 
 export function hasRealRoute(trail: Trail) {
-  return trail.source === 'kartverket_turrutebasen_wfs' || trail.source === 'kartverket_turrutebasen_live';
+  return trail.source === 'kartverket_turrutebasen_wfs'
+    || trail.source === 'kartverket_turrutebasen_live'
+    || trail.source === 'osm_overpass';
 }
 
 export function hasRouteGeometry(trail: Trail) {
@@ -70,7 +72,7 @@ export function hasRouteGeometry(trail: Trail) {
 }
 
 export function getRoutePointCount(trail: Trail) {
-  return getTrailCoordinates(trail).length;
+  return trail.route_point_count ?? getTrailCoordinates(trail).length;
 }
 
 export function haversineKm([lng1, lat1]: LngLat, [lng2, lat2]: LngLat) {
@@ -88,6 +90,9 @@ export function isLoopTrail(trail: Trail) {
 }
 
 export function getGeometryQuality(trail: Trail): GeometryQuality {
+  if (trail.route_quality === 'detailed') return 'detailed';
+  if (trail.route_quality === 'usable') return 'good';
+  if (trail.route_quality === 'candidate' || trail.route_quality === 'rough') return 'coarse';
   const count = getRoutePointCount(trail);
   if (count >= 40) return 'detailed';
   if (count >= 12) return 'good';

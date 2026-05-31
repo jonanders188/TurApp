@@ -41,6 +41,9 @@ export type Trail = {
   is_demo?: boolean;
   accessibility_verified_at?: string | null;
   data_quality_note?: string | null;
+  route_quality?: 'hidden' | 'candidate' | 'rough' | 'usable' | 'detailed' | string | null;
+  route_point_count?: number | null;
+  quality_score?: number | null;
   created_at?: string;
   updated_at?: string;
 };

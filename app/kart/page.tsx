@@ -41,7 +41,7 @@ export default async function MapPage() {
         </section>
 
         <section className="mt-6 rounded-[1.7rem] bg-amber-50 p-4 text-sm leading-6 text-amber-950 ring-1 ring-amber-200">
-          <strong className="font-black">Viktig:</strong> Flere av de kuraterte turene har fortsatt grov geometri. De ser fine ut i oversikt, men skal dere imponere skikkelig på mobil når brukeren faktisk går turen, bør de byttes ut med tettere GPX- eller OSM-baserte spor.
+          <strong className="font-black">Viktig:</strong> Flere av de utvalgte turene har fortsatt grov geometri. De ser fine ut i oversikt, men skal dere imponere skikkelig på mobil når brukeren faktisk går turen, bør de byttes ut med tettere GPX- eller OSM-baserte spor.
         </section>
 
         <section className="mt-8">

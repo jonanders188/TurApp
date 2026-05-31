@@ -50,7 +50,7 @@ export default async function TrailsPage({ searchParams }: { searchParams?: Prom
               <p className="text-xs font-black uppercase tracking-[0.24em] text-emerald-700">Vestfold · mobil først</p>
               <h1 className="mt-3 text-4xl font-black tracking-tight text-emerald-950 md:text-6xl">Finn en tur du faktisk får lyst til å gå.</h1>
               <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-                Vi viser kuraterte turer først, med tydelig rute, praktiske behov og værvindu. Når dataene er for grove, sier vi ifra i stedet for å late som kartet er mer detaljert enn det er.
+                Vi viser utvalgte turer først, med tydelig rute, praktiske behov og værvindu. Når dataene er for grove, sier vi ifra i stedet for å late som kartet er mer detaljert enn det er.
               </p>
               <div className="mt-5"><SearchBar /></div>
               <div className="mt-5 flex flex-wrap gap-2">
@@ -103,7 +103,7 @@ export default async function TrailsPage({ searchParams }: { searchParams?: Prom
         </div>
 
         <section className="mt-6 rounded-[1.7rem] bg-amber-50 p-4 text-sm leading-6 text-amber-950 ring-1 ring-amber-200">
-          <strong className="font-black">Ærlig status på rutedata:</strong> En del av de kuraterte turene har fortsatt få rutepunkter. De fungerer fint for å velge tur og se hovedformen på turen, men ikke alle er detaljerte nok for presis stinavigasjon. Da anbefaler vi å åpne ruten i kartmodus eller bruke GPX når bedre spor er tilgjengelig.
+          <strong className="font-black">Ærlig status på rutedata:</strong> En del av de utvalgte turene har fortsatt få rutepunkter. De fungerer fint for å velge tur og se hovedformen på turen, men ikke alle er detaljerte nok for presis stinavigasjon. Da anbefaler vi å åpne ruten i kartmodus eller bruke GPX når bedre spor er tilgjengelig.
         </section>
 
         {trails.length ? (

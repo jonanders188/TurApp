@@ -16,6 +16,9 @@ type TrailLike = {
   curated?: boolean | null;
   published?: boolean | null;
   is_demo?: boolean | null;
+  route_quality?: string | null;
+  route_point_count?: number | null;
+  quality_score?: number | null;
 };
 
 function asText(value?: unknown) {
@@ -182,7 +185,10 @@ export function qualityScore(trail: TrailLike) {
   if (trail.published !== false) score += 10;
   if (trail.curated) score += 20;
   if (trail.source === 'kartverket_turrutebasen_wfs') score += 15;
+  if (trail.source === 'osm_overpass') score += 35;
   if (hasLineCoordinates(trail.route_geojson)) score += 20;
+  if ((trail.route_point_count ?? 0) >= 25) score += 35;
+  if ((trail.quality_score ?? 0) >= 95) score += 25;
   if (distance >= 0.8) score += 10;
   if (distance >= 1.2) score += 15;
   if (distance >= 2 && distance <= 15) score += 10;
@@ -200,6 +206,7 @@ export function isDisplayableTrail(trail: TrailLike) {
   const distance = Number(trail.distance_km || trail.distanceKm || 0);
   if (distance < 0.8) return false;
   if (!hasLineCoordinates(trail.route_geojson)) return false;
+  if (trail.source === 'osm_overpass' && (trail.route_point_count ?? 0) < 25) return false;
   if (looksLikeWaterRoute(trail.name, trail.source_category || trail.category || trail.route_type)) return false;
 
   return qualityScore(trail) > 0;

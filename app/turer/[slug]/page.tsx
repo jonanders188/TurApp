@@ -53,7 +53,7 @@ export default async function TrailDetailPage({ params }: { params: Promise<{ sl
               <div className="flex flex-wrap items-center gap-2">
                 <Badge>{qualityLabel}</Badge>
                 <Badge>{shapeLabel}</Badge>
-                <Badge>{realRoute ? 'Ekte rutedata' : 'Kuratert rute'}</Badge>
+                <Badge>{realRoute ? 'Ekte rutedata' : 'Utvalgt tur'}</Badge>
               </div>
 
               <p className="mt-4 text-xs font-black uppercase tracking-[0.24em] text-emerald-700">{trail.municipality}{trail.area ? ` · ${trail.area}` : ''}</p>
@@ -130,7 +130,7 @@ export default async function TrailDetailPage({ params }: { params: Promise<{ sl
           </div>
 
           <div className="border-t border-emerald-900/10 p-5 md:px-8 md:pb-8">
-            <p className="text-xs leading-6 text-slate-500">Datakilde: {source}. {realRoute ? 'Denne turen bruker rutegeometri fra Kartverket/Turrutebasen.' : 'Denne turen bruker en kuratert app-rute som bør erstattes eller forbedres med tettere geometri om dere vil gi virkelig detaljert mobilnavigasjon.'} {trail.data_quality_note ?? ''}</p>
+            <p className="text-xs leading-6 text-slate-500">Datakilde: {source}. {realRoute ? 'Denne turen bruker rutegeometri fra Kartverket/Turrutebasen.' : 'Denne turen bruker en utvalgt app-rute som bør erstattes eller forbedres med tettere geometri om dere vil gi virkelig detaljert mobilnavigasjon.'} {trail.data_quality_note ?? ''}</p>
           </div>
         </div>
       </article>

@@ -83,7 +83,7 @@ export function TrailRoutePreview({ trail, compact = false }: { trail: Trail; co
       <div className="absolute left-4 top-4 right-4 flex flex-wrap gap-2">
         <Chip>{qualityLabel}</Chip>
         <Chip>{shapeLabel}</Chip>
-        <Chip>{realRoute ? 'Kartverket-spor' : 'Kuratert spor'}</Chip>
+        <Chip>{realRoute ? 'Kartverket-spor' : 'Utvalgt spor'}</Chip>
       </div>
 
       <div className="absolute bottom-4 left-4 right-4 rounded-[1.5rem] bg-white/92 p-4 shadow-lg shadow-emerald-950/10 ring-1 ring-emerald-900/10 backdrop-blur">
