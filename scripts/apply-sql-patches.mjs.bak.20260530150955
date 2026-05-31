@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
+const dir = 'sql/patches';
+const files = fs.readdirSync(dir).filter((file) => file.endsWith('.sql')).sort();
+
+console.log('SQL patches to apply manually in Supabase SQL Editor:');
+for (const file of files) {
+  console.log(`- ${path.join(dir, file)}`);
+}
+
+console.log('\nTip: paste these in order into Supabase SQL Editor, or wire this to Supabase CLI in your project.');

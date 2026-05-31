@@ -1,0 +1,52 @@
+import { TrailCard } from '@/components/TrailCard';
+import { createAdminClient } from '@/lib/supabase-admin';
+import type { Trail } from '@/types/trail';
+
+export const dynamic = 'force-dynamic';
+
+export default async function TrailsPage({ searchParams }: { searchParams?: Promise<Record<string, string | string[] | undefined>> }) {
+  const params = (await searchParams) ?? {};
+  const suitable = typeof params.suitable === 'string' ? params.suitable : undefined;
+
+  const supabase = createAdminClient();
+  let query = supabase.from('trails').select('*').order('name', { ascending: true });
+
+  if (suitable === 'stroller') query = query.eq('suitable_stroller', true);
+  if (suitable === 'carrier') query = query.eq('suitable_baby_carrier', true);
+  if (suitable === 'wheelchair') query = query.eq('suitable_wheelchair', true);
+  if (suitable === 'easy') query = query.eq('suitable_easy_walk', true);
+
+  const { data, error } = await query;
+
+  if (error) {
+    return <main className="p-8">Kunne ikke hente turer: {error.message}</main>;
+  }
+
+  const trails = (data ?? []) as Trail[];
+
+  return (
+    <main className="min-h-screen bg-[#f4f7f2] px-6 py-10">
+      <section className="mx-auto max-w-6xl">
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-700">Vestfold</p>
+            <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-950 md:text-6xl">Turer nær deg</h1>
+            <p className="mt-4 max-w-2xl text-slate-600">
+              Demo med turer filtrert på behov som barnevogn, bæremeis, rullestol og enkle turer.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <a className="rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm" href="/turer">Alle</a>
+            <a className="rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm" href="/turer?suitable=stroller">Barnevogn</a>
+            <a className="rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm" href="/turer?suitable=wheelchair">Rullestol</a>
+            <a className="rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm" href="/turer?suitable=easy">Lett å gå</a>
+          </div>
+        </div>
+
+        <div className="mt-10 grid gap-5 md:grid-cols-2">
+          {trails.map((trail) => <TrailCard key={trail.id} trail={trail} />)}
+        </div>
+      </section>
+    </main>
+  );
+}

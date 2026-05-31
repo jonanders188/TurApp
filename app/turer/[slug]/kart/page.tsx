@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { AppBottomNav } from '@/components/ui/AppBottomNav';
-import { TrailLeafletMap } from '@/components/map/TrailLeafletMap';
+import { TrailLeafletMapDynamic } from '@/components/map/TrailLeafletMapDynamic';
 import { getTrailBySlug } from '@/lib/trails';
 import { getGeometryQualityLabel, getGeometryQualityMessage, getRoutePointCount } from '@/lib/geo';
 import { appleMapsUrlForTrail, googleMapsLabelForTrail, googleMapsUrlForTrail, gpxUrlForTrail, osmUrlForTrail } from '@/lib/googleMaps';
@@ -39,7 +39,7 @@ export default async function TrailMapPage({ params }: { params: Promise<{ slug:
         </header>
 
         <section className="mt-5 overflow-hidden rounded-[2.2rem] bg-white p-3 shadow-xl shadow-emerald-950/10 ring-1 ring-emerald-900/10 md:p-4">
-          <TrailLeafletMap trail={trail} heightClass="h-[62vh] md:h-[70vh]" interactive followUser />
+          <TrailLeafletMapDynamic trail={trail} heightClass="h-[62vh] md:h-[70vh]" interactive followUser />
         </section>
 
         <section className="mt-5 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">

@@ -1,0 +1,36 @@
+import Link from 'next/link';
+import { WaitlistForm } from '@/components/WaitlistForm';
+
+export default function HomePage() {
+  return (
+    <main className="min-h-screen bg-[#f4f7f2]">
+      <section className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 py-20">
+        <div className="rounded-[2rem] bg-gradient-to-br from-emerald-700 to-emerald-950 p-8 text-white shadow-xl md:p-14">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-100">Turrute Vestfold</p>
+          <h1 className="mt-6 max-w-3xl text-5xl font-bold tracking-tight md:text-7xl">
+            Finn turer som faktisk passer deg.
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-emerald-50">
+            En enkel turapp for Vestfold med valg for barnevogn, bæremeis, rullestol, barn, hund og lette nærturer.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            {['Barnevogn', 'Bæremeis', 'Rullestol', 'Lett å gå', 'Barn', 'Hund'].map((item) => (
+              <span key={item} className="rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-white ring-1 ring-white/20">
+                {item}
+              </span>
+            ))}
+          </div>
+          <div className="mt-10 flex flex-wrap gap-4">
+            <Link href="/turer" className="rounded-full bg-white px-6 py-3 font-semibold text-emerald-950 shadow-sm hover:bg-emerald-50">
+              Se Vestfold-turer
+            </Link>
+            <a href="/api/trails" className="rounded-full border border-white/30 px-6 py-3 font-semibold text-white hover:bg-white/10">
+              Åpne API
+            </a>
+          </div>
+          <WaitlistForm />
+        </div>
+      </section>
+    </main>
+  );
+}

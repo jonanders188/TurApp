@@ -1,0 +1,57 @@
+import { NextResponse } from 'next/server';
+import { z } from 'zod';
+import { createAdminClient } from '@/lib/supabase-admin';
+
+export const dynamic = 'force-dynamic';
+
+const querySchema = z.object({
+  municipality: z.string().optional(),
+  suitable: z.enum(['stroller', 'carrier', 'wheelchair', 'easy', 'children', 'dog']).optional(),
+  maxDistanceKm: z.coerce.number().positive().optional(),
+  maxMinutes: z.coerce.number().positive().optional(),
+});
+
+const suitabilityColumn: Record<string, string> = {
+  stroller: 'suitable_stroller',
+  carrier: 'suitable_baby_carrier',
+  wheelchair: 'suitable_wheelchair',
+  easy: 'suitable_easy_walk',
+  children: 'suitable_children',
+  dog: 'suitable_dog',
+};
+
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const parsed = querySchema.safeParse(Object.fromEntries(url.searchParams));
+
+  if (!parsed.success) {
+    return NextResponse.json({ error: 'Invalid query', details: parsed.error.flatten() }, { status: 400 });
+  }
+
+  const supabase = createAdminClient();
+  let query = supabase.from('trails').select('*').order('name', { ascending: true });
+
+  if (parsed.data.municipality) {
+    query = query.eq('municipality', parsed.data.municipality);
+  }
+
+  if (parsed.data.maxDistanceKm) {
+    query = query.lte('distance_km', parsed.data.maxDistanceKm);
+  }
+
+  if (parsed.data.maxMinutes) {
+    query = query.lte('estimated_minutes', parsed.data.maxMinutes);
+  }
+
+  if (parsed.data.suitable) {
+    query = query.eq(suitabilityColumn[parsed.data.suitable], true);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ trails: data ?? [] });
+}

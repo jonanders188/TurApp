@@ -1,0 +1,41 @@
+insert into public.trails (
+  id, slug, name, municipality, area, distance_km, estimated_minutes, difficulty,
+  route_type, surface_type, elevation_gain_m, suitable_stroller, suitable_baby_carrier,
+  suitable_wheelchair, suitable_easy_walk, suitable_children, suitable_dog, has_parking,
+  has_toilet, has_viewpoint, tags, description, image_url, lat, lng
+)
+values
+  ('verdens-ende', 'verdens-ende', 'Verdens Ende', 'Færder', 'Tjøme', 1.5, 35, 'Lett', 'Kort tur', 'Grus, asfalt, svaberg', 20, true, true, true, true, true, true, true, true, true, array['Havutsikt', 'Kort tur', 'Familievennlig', 'Tilgjengelig']::text[], 'Kort og vakker tur ytterst mot havet. Passer godt for deg som vil ha stor naturopplevelse uten lang tur.', null, 59.0529, 10.4071),
+  ('bokeskogen-larvik', 'bokeskogen-larvik', 'Bøkeskogen', 'Larvik', 'Larvik sentrum', 2.4, 45, 'Lett', 'Rundtur', 'Grusvei, sti', 35, true, true, false, true, true, true, true, true, false, array['Skog', 'Skygge', 'Barn', 'Lett å gå']::text[], 'Rolig skogstur med brede stier og mange muligheter for kortere runder.', null, 59.0551, 10.0273),
+  ('karljohansvern', 'karljohansvern', 'Karljohansvern', 'Horten', 'Horten', 3.2, 60, 'Lett', 'Rundtur', 'Asfalt, grus', 15, true, true, true, true, true, true, true, true, true, array['Kyst', 'Kultur', 'Kafé i nærheten', 'Tilgjengelig']::text[], 'Bynær tur med sjø, historie og fine stoppesteder underveis.', null, 59.4239, 10.4858),
+  ('molen', 'molen', 'Mølen', 'Larvik', 'Brunlanes', 2.0, 45, 'Lett / middels', 'Tur-retur / rundtur', 'Sti, rullestein', 25, false, true, false, false, true, true, true, true, true, array['Havutsikt', 'Geologi', 'Bæremeis', 'Barn']::text[], 'Spektakulær kysttur med rullestein og åpent hav. Best med bæremeis eller større barn.', null, 58.9692, 9.8268),
+  ('ilene-naturreservat', 'ilene-naturreservat', 'Ilene naturreservat', 'Tønsberg', 'Ilene', 2.0, 40, 'Lett', 'Kort tur', 'Grus, tredekke', 5, true, true, true, true, true, false, true, false, true, array['Fugletitting', 'Flatt', 'Naturreservat', 'Tilgjengelig']::text[], 'Flat og rolig tur med fugletårn og natur tett på byen.', null, 59.2739, 10.3672),
+  ('borrehaugene', 'borrehaugene', 'Borrehaugene', 'Horten', 'Borre', 2.5, 50, 'Lett', 'Rundtur', 'Grus, gress, sti', 20, true, true, true, true, true, true, true, true, false, array['Historie', 'Familievennlig', 'Kultur', 'Åpent landskap']::text[], 'Historisk tur i åpent landskap med god plass og korte runder.', null, 59.3831, 10.4665),
+  ('holmestrand-fjordpromenade', 'holmestrand-fjordpromenade', 'Holmestrand fjordpromenade', 'Holmestrand', 'Holmestrand sentrum', 2.8, 45, 'Lett', 'Tur-retur', 'Asfalt, promenade', 5, true, true, true, true, true, true, true, true, true, array['Fjord', 'Promenade', 'Tilgjengelig', 'Kort tur']::text[], 'Flat tur langs fjorden med enkel adkomst og fine stopp langs vannet.', null, 59.4881, 10.3172),
+  ('midtasen', 'midtasen', 'Midtåsen', 'Sandefjord', 'Sandefjord', 1.8, 35, 'Lett', 'Kort tur', 'Grus, sti', 45, false, true, false, true, true, true, true, false, true, array['Utsikt', 'Park', 'Kort tur', 'Barn']::text[], 'Kort tur med utsikt, parkpreg og fine pauserom underveis.', null, 59.1244, 10.2242)
+on conflict (id) do update set
+  slug = excluded.slug,
+  name = excluded.name,
+  municipality = excluded.municipality,
+  area = excluded.area,
+  distance_km = excluded.distance_km,
+  estimated_minutes = excluded.estimated_minutes,
+  difficulty = excluded.difficulty,
+  route_type = excluded.route_type,
+  surface_type = excluded.surface_type,
+  elevation_gain_m = excluded.elevation_gain_m,
+  suitable_stroller = excluded.suitable_stroller,
+  suitable_baby_carrier = excluded.suitable_baby_carrier,
+  suitable_wheelchair = excluded.suitable_wheelchair,
+  suitable_easy_walk = excluded.suitable_easy_walk,
+  suitable_children = excluded.suitable_children,
+  suitable_dog = excluded.suitable_dog,
+  has_parking = excluded.has_parking,
+  has_toilet = excluded.has_toilet,
+  has_viewpoint = excluded.has_viewpoint,
+  tags = excluded.tags,
+  description = excluded.description,
+  image_url = excluded.image_url,
+  lat = excluded.lat,
+  lng = excluded.lng,
+  updated_at = now();

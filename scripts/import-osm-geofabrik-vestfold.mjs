@@ -32,6 +32,21 @@ const POI_DEFINITIONS = [
 ];
 
 
+const MUNICIPALITY_ZONES = [
+  { name: 'Færder', minLat: 58.86, maxLat: 59.25, minLng: 10.28, maxLng: 10.68, weight: 1.35 },
+  { name: 'Larvik', minLat: 58.82, maxLat: 59.18, minLng: 9.65, maxLng: 10.32, weight: 1.15 },
+  { name: 'Sandefjord', minLat: 59.02, maxLat: 59.30, minLng: 10.00, maxLng: 10.42, weight: 1.1 },
+  { name: 'Tønsberg', minLat: 59.18, maxLat: 59.39, minLng: 10.16, maxLng: 10.58, weight: 1.05 },
+  { name: 'Horten', minLat: 59.32, maxLat: 59.54, minLng: 10.28, maxLng: 10.72, weight: 1.15 },
+  { name: 'Holmestrand', minLat: 59.35, maxLat: 59.74, minLng: 9.88, maxLng: 10.45, weight: 1.05 },
+  { name: 'Porsgrunn', minLat: 59.02, maxLat: 59.23, minLng: 9.50, maxLng: 9.88, weight: 1 },
+  { name: 'Skien', minLat: 59.14, maxLat: 59.36, minLng: 9.45, maxLng: 9.85, weight: 1 },
+  { name: 'Bamble', minLat: 58.82, maxLat: 59.12, minLng: 9.45, maxLng: 9.95, weight: 1 },
+  { name: 'Siljan', minLat: 59.20, maxLat: 59.42, minLng: 9.55, maxLng: 9.88, weight: 1 },
+  { name: 'Kongsberg', minLat: 59.54, maxLat: 59.78, minLng: 9.35, maxLng: 9.86, weight: 1 },
+  { name: 'Drammen', minLat: 59.62, maxLat: 59.86, minLng: 9.98, maxLng: 10.45, weight: 1 },
+];
+
 const MUNICIPALITY_CENTERS = [
   { name: 'Horten', lat: 59.4172, lng: 10.4834 },
   { name: 'Holmestrand', lat: 59.4876, lng: 10.3176 },
@@ -47,16 +62,36 @@ const MUNICIPALITY_CENTERS = [
   { name: 'Drammen', lat: 59.7439, lng: 10.2045 },
 ];
 
+function pointInZone(lat, lng, zone) {
+  return lat >= zone.minLat && lat <= zone.maxLat && lng >= zone.minLng && lng <= zone.maxLng;
+}
+
 function inferMunicipalityFromPoint(lat, lng) {
   if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+
+  const zone = MUNICIPALITY_ZONES.find((candidate) => pointInZone(lat, lng, candidate));
+  if (zone) return zone.name;
+
   const nearest = MUNICIPALITY_CENTERS
     .map((m) => ({ name: m.name, km: haversineKm([lng, lat], [m.lng, m.lat]) }))
     .sort((a, b) => a.km - b.km)[0];
   return nearest && nearest.km <= 85 ? nearest.name : null;
 }
 
+function sampleCoords(coords, maxSamples = 13) {
+  if (coords.length <= maxSamples) return coords;
+  const out = [];
+  for (let i = 0; i < maxSamples; i += 1) {
+    const index = Math.round((i / (maxSamples - 1)) * (coords.length - 1));
+    out.push(coords[index]);
+  }
+  return out;
+}
+
 function inferMunicipalityFromCoords(coords) {
   if (!coords.length) return null;
+  const sampled = sampleCoords(coords);
+
   let minLng = Infinity;
   let maxLng = -Infinity;
   let minLat = Infinity;
@@ -68,8 +103,33 @@ function inferMunicipalityFromCoords(coords) {
     minLat = Math.min(minLat, lat);
     maxLat = Math.max(maxLat, lat);
   }
+  if ([minLng, maxLng, minLat, maxLat].every(Number.isFinite)) sampled.push([(minLng + maxLng) / 2, (minLat + maxLat) / 2]);
+
+  const scores = new Map();
+  for (const [lng, lat] of sampled) {
+    for (const zone of MUNICIPALITY_ZONES) {
+      if (!pointInZone(lat, lng, zone)) continue;
+      scores.set(zone.name, (scores.get(zone.name) || 0) + (zone.weight || 1));
+    }
+  }
+  const winner = Array.from(scores.entries()).sort((a, b) => b[1] - a[1])[0];
+  if (winner) return winner[0];
+
   if (![minLng, maxLng, minLat, maxLat].every(Number.isFinite)) return null;
   return inferMunicipalityFromPoint((minLat + maxLat) / 2, (minLng + maxLng) / 2);
+}
+
+function inferAreaFromTags(tags = {}, isLoop = false) {
+  const text = `${tags.name || ''} ${tags.description || ''} ${tags.highway || ''} ${tags.surface || ''} ${tags.tracktype || ''}`.toLowerCase();
+  if (/kyststi|kyst|fjord|strand|svaberg|promenade/.test(text)) return 'Kyststi';
+  if (/lysløype|lysløypa|løype|løypa|rundløype|skiløype/.test(text)) return 'Løype';
+  if (/natursti|eventyrsti|eventyrstien/.test(text)) return 'Natursti';
+  if (/runden|runde|rundtur/.test(text) || isLoop) return 'Rundtur';
+  if (/kollen|åsen|knatten|fjell|heia|utsikt/.test(text)) return 'Ås og utsikt';
+  if (/skogen|skog|marka/.test(text)) return 'Skogstur';
+  if (/gravel|fine_gravel|compacted|track/.test(text)) return 'Turvei';
+  if (/path|sti|stien|trailblazed/.test(text)) return 'Sti';
+  return null;
 }
 
 function run(command, args, options = {}) {
@@ -294,7 +354,7 @@ function makeRouteCandidate(feature, index, rejectionReason = null) {
     osm_id: String(id),
     name,
     municipality: municipalityFromTags(tags) || inferMunicipalityFromCoords(coords) || 'Vestfold',
-    area: tags.place || tags.locality || null,
+    area: tags.place || tags.locality || inferAreaFromTags(tags, isLoop) || null,
     distance_km: Number(km.toFixed(2)),
     estimated_minutes: Math.max(15, Math.round(km * 17)),
     route_geojson: coords.length ? { type: 'LineString', coordinates: coords } : null,

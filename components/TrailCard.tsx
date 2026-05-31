@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import type { Trail } from '@/types/trail';
 import { getSuitabilityTags } from '@/lib/trails';
+import { trailLocationLabel } from '@/lib/municipality';
 import { SuitabilityBadge } from '@/components/ui/SuitabilityBadge';
 import { TrailRoutePreview } from '@/components/map/TrailRoutePreview';
 import { getGeometryQualityMessage, getRouteShapeLabel, hasRealRoute } from '@/lib/geo';
@@ -24,6 +25,7 @@ export function TrailCard({ trail, featured = false }: { trail: Trail; featured?
   const shapeLabel = getRouteShapeLabel(trail);
   const realRoute = hasRealRoute(trail);
   const distanceToSearch = typeof trail.distance_to_search_km === 'number' ? trail.distance_to_search_km : null;
+  const locationLabel = trailLocationLabel(trail);
 
   return (
     <article className={`overflow-hidden rounded-[2rem] bg-white shadow-sm ring-1 ring-emerald-900/10 transition hover:-translate-y-1 hover:shadow-xl ${featured ? 'ring-2 ring-emerald-300' : ''}`}>
@@ -41,7 +43,7 @@ export function TrailCard({ trail, featured = false }: { trail: Trail; featured?
 
         <div className="mt-4 flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">{trail.municipality}{trail.area ? ` · ${trail.area}` : ''}</p>
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">{locationLabel}</p>
             <Link href={`/turer/${trail.slug}`} className="mt-1 block text-2xl font-black tracking-tight text-slate-950 hover:text-emerald-800">
               {trail.name}
             </Link>

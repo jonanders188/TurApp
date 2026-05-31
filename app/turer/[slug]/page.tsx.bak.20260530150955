@@ -1,0 +1,64 @@
+import { notFound } from 'next/navigation';
+import { createAdminClient } from '@/lib/supabase-admin';
+import { getSuitabilityTags } from '@/lib/trails';
+import type { Trail } from '@/types/trail';
+
+export const dynamic = 'force-dynamic';
+
+export default async function TrailDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const supabase = createAdminClient();
+  const { data, error } = await supabase.from('trails').select('*').eq('slug', slug).single();
+
+  if (error || !data) notFound();
+
+  const trail = data as Trail;
+  const suitabilityTags = getSuitabilityTags(trail);
+
+  return (
+    <main className="min-h-screen bg-[#f4f7f2] px-6 py-10">
+      <article className="mx-auto max-w-4xl overflow-hidden rounded-[2rem] bg-white shadow-sm">
+        <div className="h-64 bg-gradient-to-br from-emerald-200 via-sky-100 to-emerald-700" />
+        <div className="p-6 md:p-10">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-700">{trail.municipality}</p>
+          <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-950">{trail.name}</h1>
+          <p className="mt-4 text-lg leading-8 text-slate-600">{trail.description}</p>
+
+          <dl className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+            <Metric label="Distanse" value={`${trail.distance_km} km`} />
+            <Metric label="Tid" value={`${trail.estimated_minutes} min`} />
+            <Metric label="Vanskelighet" value={trail.difficulty} />
+            <Metric label="Stigning" value={`${trail.elevation_gain_m ?? 0} m`} />
+          </dl>
+
+          <div className="mt-8 flex flex-wrap gap-2">
+            {suitabilityTags.map((tag) => (
+              <span key={tag} className="rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800">
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-8 rounded-3xl bg-slate-50 p-5">
+            <h2 className="font-semibold text-slate-950">Praktisk informasjon</h2>
+            <ul className="mt-4 space-y-2 text-slate-700">
+              <li>Underlag: {trail.surface_type ?? 'Ukjent'}</li>
+              <li>Rutetype: {trail.route_type ?? 'Ukjent'}</li>
+              <li>Parkering: {trail.has_parking ? 'Ja' : 'Ukjent/nei'}</li>
+              <li>Toalett: {trail.has_toilet ? 'Ja' : 'Ukjent/nei'}</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+    </main>
+  );
+}
+
+function Metric({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="rounded-3xl bg-[#f4f7f2] p-4">
+      <dt className="text-sm text-slate-500">{label}</dt>
+      <dd className="mt-1 font-semibold text-slate-950">{value}</dd>
+    </div>
+  );
+}

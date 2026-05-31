@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { AppBottomNav } from '@/components/ui/AppBottomNav';
-import { TrailLeafletMap } from '@/components/map/TrailLeafletMap';
+import { TrailLeafletMapDynamic } from '@/components/map/TrailLeafletMapDynamic';
 import { SuitabilityBadge } from '@/components/ui/SuitabilityBadge';
 import { LiveWeatherCard } from '@/components/LiveWeatherCard';
 import { SaveTrailButton } from '@/components/SaveTrailButton';
@@ -45,7 +45,7 @@ export default async function TrailDetailPage({ params }: { params: Promise<{ sl
 
         <div className="mt-5 overflow-hidden rounded-[2.2rem] bg-white shadow-xl shadow-emerald-950/10 ring-1 ring-emerald-900/10">
           <div className="p-4 md:p-6">
-            <TrailLeafletMap trail={trail} heightClass="h-[23rem] md:h-[32rem]" interactive followUser={false} />
+            <TrailLeafletMapDynamic trail={trail} heightClass="h-[23rem] md:h-[32rem]" interactive followUser={false} />
           </div>
 
           <div className="grid gap-6 px-5 pb-6 md:px-8 md:pb-8 lg:grid-cols-[1.05fr_0.95fr]">
