@@ -48,12 +48,26 @@ function createReadClient() {
 }
 
 export function matchesTrailFilters(trail: Trail, filters: TrailFilters) {
+  const enrichment = trail.enrichment_summary ?? {};
+
   if (filters.municipality && trail.municipality !== filters.municipality) return false;
   if (filters.maxDistanceKm && trail.distance_km > filters.maxDistanceKm) return false;
   if (filters.maxMinutes && trail.estimated_minutes > filters.maxMinutes) return false;
+  if (filters.routeKind && enrichment.route_kind !== filters.routeKind && trail.area !== filters.routeKind) return false;
 
   if (filters.suitable) {
     return Boolean(trail[suitabilityColumn[filters.suitable]]);
+  }
+
+  if (filters.amenity) {
+    if (filters.amenity === 'parking') return Boolean(trail.has_parking || enrichment.has_parking_nearby);
+    if (filters.amenity === 'toilet') return Boolean(trail.has_toilet || enrichment.has_toilet_nearby);
+    if (filters.amenity === 'viewpoint') return Boolean(trail.has_viewpoint || enrichment.has_viewpoint_nearby);
+    if (filters.amenity === 'lit') return Boolean(enrichment.is_lit);
+    if (filters.amenity === 'marked') return Boolean(enrichment.is_marked);
+    if (filters.amenity === 'cafe') return Boolean(enrichment.has_cafe_nearby);
+    if (filters.amenity === 'playground') return Boolean(enrichment.has_playground_nearby);
+    if (filters.amenity === 'bench') return Number(enrichment.bench_count ?? 0) > 0;
   }
 
   return true;
@@ -68,6 +82,28 @@ export function getSuitabilityTags(trail: Trail) {
     trail.suitable_children ? 'Barn' : null,
     trail.suitable_dog ? 'Hund' : null,
   ].filter(Boolean) as string[];
+}
+
+export function getTrailEnrichmentTags(trail: Trail) {
+  const e = trail.enrichment_summary ?? {};
+  const tags = [
+    trail.has_parking || e.has_parking_nearby ? formatDistanceTag('Parkering', e.parking_distance_m) : null,
+    trail.has_toilet || e.has_toilet_nearby ? formatDistanceTag('Toalett', e.toilet_distance_m) : null,
+    trail.has_viewpoint || e.has_viewpoint_nearby ? 'Utsikt' : null,
+    e.is_marked ? 'Merket' : null,
+    e.is_lit ? 'Belyst' : null,
+    e.has_cafe_nearby ? formatDistanceTag('Kafé', e.cafe_distance_m) : null,
+    e.has_playground_nearby ? 'Lekeplass' : null,
+    Number(e.bench_count ?? 0) > 0 ? `${e.bench_count} benk${e.bench_count === 1 ? '' : 'er'}` : null,
+  ];
+
+  return tags.filter(Boolean) as string[];
+}
+
+function formatDistanceTag(label: string, distance: number | null | undefined) {
+  if (typeof distance !== 'number' || !Number.isFinite(distance)) return label;
+  if (distance < 100) return `${label} nær`;
+  return `${label} ${Math.round(distance / 50) * 50} m`;
 }
 
 async function rankTrailsForSearch(trails: Trail[], filters: TrailFilters) {
@@ -194,8 +230,10 @@ export function getBestTrailNow(trails: Trail[]) {
   return trails
     .slice()
     .sort((a, b) => {
-      const aScore = Number(a.suitable_easy_walk) + Number(a.suitable_stroller) + Number(a.suitable_wheelchair) + Number(a.has_toilet) + Number(a.has_parking) - a.distance_km / 10;
-      const bScore = Number(b.suitable_easy_walk) + Number(b.suitable_stroller) + Number(b.suitable_wheelchair) + Number(b.has_toilet) + Number(b.has_parking) - b.distance_km / 10;
+      const ae = a.enrichment_summary ?? {};
+      const be = b.enrichment_summary ?? {};
+      const aScore = Number(a.suitable_easy_walk) + Number(a.suitable_stroller) + Number(a.suitable_wheelchair) + Number(a.has_toilet || ae.has_toilet_nearby) + Number(a.has_parking || ae.has_parking_nearby) + Number(ae.is_marked) + Number(ae.is_lit) + Number(ae.amenity_score ?? 0) / 50 - a.distance_km / 10;
+      const bScore = Number(b.suitable_easy_walk) + Number(b.suitable_stroller) + Number(b.suitable_wheelchair) + Number(b.has_toilet || be.has_toilet_nearby) + Number(b.has_parking || be.has_parking_nearby) + Number(be.is_marked) + Number(be.is_lit) + Number(be.amenity_score ?? 0) / 50 - b.distance_km / 10;
       return bScore - aScore;
     })[0];
 }

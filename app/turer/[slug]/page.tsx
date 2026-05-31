@@ -8,7 +8,7 @@ import { LiveWeatherCard } from '@/components/LiveWeatherCard';
 import { SaveTrailButton } from '@/components/SaveTrailButton';
 import { AccessibilityReportForm } from '@/components/AccessibilityReportForm';
 import { NearbyAmenitiesCard } from '@/components/NearbyAmenitiesCard';
-import { getSuitabilityTags, getTrailBySlug } from '@/lib/trails';
+import { getSuitabilityTags, getTrailBySlug, getTrailEnrichmentTags } from '@/lib/trails';
 import {
   getGeometryQualityLabel,
   getGeometryQualityMessage,
@@ -27,6 +27,8 @@ export default async function TrailDetailPage({ params }: { params: Promise<{ sl
   if (!trail) notFound();
 
   const suitabilityTags = getSuitabilityTags(trail);
+  const enrichmentTags = getTrailEnrichmentTags(trail);
+  const enrichment = trail.enrichment_summary ?? {};
   const realRoute = hasRealRoute(trail);
   const googleMapsUrl = googleMapsUrlForTrail(trail);
   const googleMapsLabel = googleMapsLabelForTrail(trail);
@@ -68,7 +70,9 @@ export default async function TrailDetailPage({ params }: { params: Promise<{ sl
               </div>
 
               <div className="mt-5 flex flex-wrap gap-2">
-                {suitabilityTags.length ? suitabilityTags.map((tag) => <SuitabilityBadge key={tag} label={tag} />) : <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">Tilgjengelighet ukjent</span>}
+                {enrichmentTags.map((tag) => <SuitabilityBadge key={tag} label={tag} />)}
+                {suitabilityTags.length ? suitabilityTags.map((tag) => <SuitabilityBadge key={tag} label={tag} />) : null}
+                {!suitabilityTags.length && !enrichmentTags.length ? <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">Tilgjengelighet ukjent</span> : null}
               </div>
 
               <div className="mt-5 rounded-[1.5rem] bg-amber-50 p-4 ring-1 ring-amber-200">
@@ -103,9 +107,9 @@ export default async function TrailDetailPage({ params }: { params: Promise<{ sl
                 <h2 className="text-2xl font-black tracking-tight text-slate-950">Praktisk informasjon</h2>
                 <dl className="mt-4 divide-y divide-slate-200 rounded-[1.4rem] bg-white px-4 ring-1 ring-slate-900/5">
                   <Info label="Turform" value={shapeLabel} />
-                  <Info label="Underlag" value={trail.surface_type ?? 'Ukjent'} />
-                  <Info label="Parkering" value={trail.has_parking ? 'Ja' : 'Ukjent'} />
-                  <Info label="Toalett" value={trail.has_toilet ? 'Ja' : 'Ukjent'} />
+                  <Info label="Underlag" value={enrichment.surface_summary ?? trail.surface_type ?? 'Ukjent'} />
+                  <Info label="Parkering" value={trail.has_parking || enrichment.has_parking_nearby ? formatDistance('Ja', enrichment.parking_distance_m) : 'Ukjent'} />
+                  <Info label="Toalett" value={trail.has_toilet || enrichment.has_toilet_nearby ? formatDistance('Ja', enrichment.toilet_distance_m) : 'Ukjent'} />
                   <Info label="Rutepunkter" value={String(pointCount)} />
                 </dl>
               </div>
@@ -152,6 +156,11 @@ function Metric({ label, value }: { label: string; value: string | number }) {
 
 function Info({ label, value }: { label: string; value: string }) {
   return <div className="flex justify-between gap-4 py-3 text-sm"><dt className="font-bold text-slate-500">{label}</dt><dd className="text-right font-black text-slate-900">{value}</dd></div>;
+}
+
+function formatDistance(prefix: string, distance: number | null | undefined) {
+  if (typeof distance !== 'number' || !Number.isFinite(distance)) return prefix;
+  return `${prefix}, ca. ${Math.round(distance / 50) * 50} m`;
 }
 
 function Badge({ children }: { children: ReactNode }) {

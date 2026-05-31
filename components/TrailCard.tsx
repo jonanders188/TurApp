@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import type { Trail } from '@/types/trail';
-import { getSuitabilityTags } from '@/lib/trails';
+import { getSuitabilityTags, getTrailEnrichmentTags } from '@/lib/trails';
 import { trailLocationLabel } from '@/lib/municipality';
 import { SuitabilityBadge } from '@/components/ui/SuitabilityBadge';
 import { TrailRoutePreview } from '@/components/map/TrailRoutePreview';
@@ -18,6 +18,8 @@ const modeLabel: Record<string, string> = {
 
 export function TrailCard({ trail, featured = false }: { trail: Trail; featured?: boolean }) {
   const tags = getSuitabilityTags(trail).slice(0, 4);
+  const enrichmentTags = getTrailEnrichmentTags(trail).slice(0, 5);
+  const enrichment = trail.enrichment_summary ?? {};
   const googleUrl = googleMapsUrlForTrail(trail);
   const googleLabel = googleMapsLabelForTrail(trail);
   const mode = getTrailMode(trail);
@@ -59,7 +61,7 @@ export function TrailCard({ trail, featured = false }: { trail: Trail; featured?
         <div className="mt-4 grid grid-cols-3 gap-2 text-sm">
           <Metric value={distanceToSearch !== null ? `${distanceToSearch} km` : trail.difficulty} label={distanceToSearch !== null ? 'fra søk' : 'nivå'} />
           <Metric value={`${trail.elevation_gain_m ?? 0} m`} label="stigning" />
-          <Metric value={trail.surface_type ?? 'Ukjent'} label="underlag" />
+          <Metric value={enrichment.surface_summary ?? trail.surface_type ?? 'Ukjent'} label="underlag" />
         </div>
 
         <div className="mt-4 rounded-[1.25rem] bg-emerald-50/70 p-3 text-xs font-semibold leading-5 text-emerald-950 ring-1 ring-emerald-900/5">
@@ -67,7 +69,9 @@ export function TrailCard({ trail, featured = false }: { trail: Trail; featured?
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          {tags.length ? tags.map((tag) => <SuitabilityBadge key={tag} label={tag} />) : <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">Tilgjengelighet ukjent</span>}
+          {enrichmentTags.map((tag) => <SuitabilityBadge key={tag} label={tag} />)}
+          {tags.length ? tags.map((tag) => <SuitabilityBadge key={tag} label={tag} />) : null}
+          {!tags.length && !enrichmentTags.length ? <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">Tilgjengelighet ukjent</span> : null}
         </div>
 
         <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">

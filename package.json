@@ -33,7 +33,9 @@
     "osm:all": "npm run osm:import && npm run osm:seed",
     "osm:overpass:import": "node scripts/import-osm-vestfold.mjs",
     "osm:geofabrik:import": "node scripts/import-osm-geofabrik-vestfold.mjs",
-    "osm:geofabrik:all": "npm run osm:geofabrik:import && npm run osm:seed"
+    "osm:geofabrik:all": "npm run osm:geofabrik:import && npm run osm:seed",
+    "trails:enrich": "node scripts/enrich-trails.mjs",
+    "trails:enrich:all": "npm run osm:seed && npm run trails:enrich"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

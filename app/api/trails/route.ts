@@ -7,6 +7,8 @@ export const dynamic = 'force-dynamic';
 const querySchema = z.object({
   municipality: z.string().optional(),
   suitable: z.enum(['stroller', 'carrier', 'wheelchair', 'easy', 'children', 'dog']).optional(),
+  amenity: z.enum(['parking', 'toilet', 'viewpoint', 'lit', 'marked', 'cafe', 'playground', 'bench']).optional(),
+  routeKind: z.string().optional(),
   maxDistanceKm: z.coerce.number().positive().optional(),
   maxMinutes: z.coerce.number().positive().optional(),
   searchPlace: z.string().optional(),

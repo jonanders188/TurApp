@@ -1,3 +1,28 @@
+
+export type TrailEnrichmentSummary = {
+  route_kind?: string | null;
+  surface_summary?: string | null;
+  is_marked?: boolean;
+  is_lit?: boolean;
+  has_parking_nearby?: boolean;
+  parking_distance_m?: number | null;
+  has_toilet_nearby?: boolean;
+  toilet_distance_m?: number | null;
+  has_viewpoint_nearby?: boolean;
+  viewpoint_distance_m?: number | null;
+  has_cafe_nearby?: boolean;
+  cafe_distance_m?: number | null;
+  has_playground_nearby?: boolean;
+  playground_distance_m?: number | null;
+  bench_count?: number;
+  drinking_water_count?: number;
+  amenity_score?: number;
+  child_score?: number;
+  stroller_score?: number;
+  easy_score?: number;
+  confidence_score?: number;
+};
+
 export type Difficulty = 'Lett' | 'Lett / middels' | 'Middels' | 'Krevende';
 
 export type RouteGeoJson = {
@@ -47,11 +72,14 @@ export type Trail = {
   created_at?: string;
   updated_at?: string;
   distance_to_search_km?: number | null;
+  enrichment_summary?: TrailEnrichmentSummary | null;
 };
 
 export type TrailFilters = {
   municipality?: string;
   suitable?: 'stroller' | 'carrier' | 'wheelchair' | 'easy' | 'children' | 'dog';
+  amenity?: 'parking' | 'toilet' | 'viewpoint' | 'lit' | 'marked' | 'cafe' | 'playground' | 'bench';
+  routeKind?: string;
   maxDistanceKm?: number;
   maxMinutes?: number;
   searchPlace?: string;

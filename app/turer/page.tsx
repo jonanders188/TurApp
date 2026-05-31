@@ -21,14 +21,27 @@ const filterLabels: Record<NonNullable<TrailFilters['suitable']> | 'all', { labe
   dog: { label: 'Hund', icon: '🐾' },
 };
 
+
+const amenityFilters: Array<{ key: NonNullable<TrailFilters['amenity']>; label: string; icon: string }> = [
+  { key: 'parking', label: 'Parkering', icon: '🅿️' },
+  { key: 'toilet', label: 'Toalett', icon: '🚻' },
+  { key: 'viewpoint', label: 'Utsikt', icon: '⛰️' },
+  { key: 'marked', label: 'Merket', icon: '◇' },
+  { key: 'lit', label: 'Belyst', icon: '💡' },
+  { key: 'cafe', label: 'Kafé', icon: '☕' },
+  { key: 'playground', label: 'Lekeplass', icon: '🛝' },
+  { key: 'bench', label: 'Benker', icon: '🪑' },
+];
+
 export default async function TrailsPage({ searchParams }: { searchParams?: Promise<Record<string, string | string[] | undefined>> }) {
   const params = (await searchParams) ?? {};
   const suitable = typeof params.suitable === 'string' ? params.suitable as TrailFilters['suitable'] : undefined;
   const municipality = typeof params.municipality === 'string' ? params.municipality : undefined;
   const maxDistanceKm = typeof params.maxDistanceKm === 'string' ? Number(params.maxDistanceKm) : undefined;
+  const amenity = typeof params.amenity === 'string' ? params.amenity as TrailFilters['amenity'] : undefined;
   const searchPlace = typeof params.sted === 'string' ? params.sted : (typeof params.q === 'string' ? params.q : undefined);
 
-  const { trails, source, error, place } = await getTrails({ suitable, municipality, maxDistanceKm, searchPlace });
+  const { trails, source, error, place } = await getTrails({ suitable, municipality, maxDistanceKm, amenity, searchPlace });
   const { trails: allTrails } = await getTrails();
   const municipalities = getMunicipalities(allTrails);
   const featuredTrail = trails[0] ?? null;
@@ -58,6 +71,9 @@ export default async function TrailsPage({ searchParams }: { searchParams?: Prom
                 {Object.entries(filterLabels).slice(1).map(([key, item]) => (
                   <FilterChip key={key} href={`/turer?suitable=${key}`} label={item.label} icon={item.icon} active={suitable === key} />
                 ))}
+                {amenityFilters.slice(0, 5).map((item) => (
+                  <FilterChip key={item.key} href={`/turer?amenity=${item.key}`} label={item.label} icon={item.icon} active={amenity === item.key} />
+                ))}
               </div>
             </div>
             <WeatherCard compact lat={place?.lat ?? null} lng={place?.lng ?? null} placeLabel={place?.label ?? null} useUserLocation={!place} />
@@ -84,6 +100,11 @@ export default async function TrailsPage({ searchParams }: { searchParams?: Prom
               const active = key === (suitable ?? 'all');
               return <FilterChip key={key} href={href} label={item.label} icon={item.icon} active={active} />;
             })}
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2 border-t border-slate-100 pt-3">
+            {amenityFilters.map((item) => (
+              <FilterChip key={item.key} href={`/turer?amenity=${item.key}`} label={item.label} icon={item.icon} active={amenity === item.key} />
+            ))}
           </div>
           <div className="mt-4 flex gap-2 overflow-x-auto border-t border-slate-100 pt-4 pb-1">
             <Link href="/turer" className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-bold ${!municipality ? 'bg-slate-950 text-white' : 'bg-slate-100 text-slate-700'}`}>
