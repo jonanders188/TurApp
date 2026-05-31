@@ -9,7 +9,7 @@ import { AccessibilityReportForm } from '@/components/AccessibilityReportForm';
 import { NearbyAmenitiesCard } from '@/components/NearbyAmenitiesCard';
 import { getSuitabilityTags, getTrailBySlug } from '@/lib/trails';
 import { hasRealRoute } from '@/lib/geo';
-import { googleMapsLabelForTrail, googleMapsUrlForTrail, shouldUseGoogleDirections } from '@/lib/googleMaps';
+import { appleMapsUrlForTrail, googleMapsLabelForTrail, googleMapsUrlForTrail, gpxUrlForTrail, osmUrlForTrail, shouldUseGoogleDirections } from '@/lib/googleMaps';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,6 +25,9 @@ export default async function TrailDetailPage({ params }: { params: Promise<{ sl
   const googleMapsUrl = googleMapsUrlForTrail(trail);
   const googleMapsHasRoute = shouldUseGoogleDirections(trail);
   const googleMapsLabel = googleMapsLabelForTrail(trail);
+  const gpxUrl = gpxUrlForTrail(trail);
+  const appleMapsUrl = appleMapsUrlForTrail(trail);
+  const osmUrl = osmUrlForTrail(trail);
 
   return (
     <main className="min-h-screen bg-[#f4f7f2] pb-24 text-slate-950 md:pb-0">
@@ -54,12 +57,22 @@ export default async function TrailDetailPage({ params }: { params: Promise<{ sl
                 {suitabilityTags.map((tag) => <SuitabilityBadge key={tag} label={tag} />)}
               </div>
 
-              <div className="mt-7 flex flex-wrap gap-3">
-                <a className="rounded-full bg-emerald-950 px-6 py-3 font-black text-white hover:bg-emerald-900" href={googleMapsUrl} target="_blank" rel="noreferrer">
+              <div className="mt-7 grid gap-3 sm:grid-cols-2">
+                <Link className="rounded-full bg-emerald-950 px-6 py-3 text-center font-black text-white hover:bg-emerald-900" href={`/turer/${trail.slug}/kart`}>
+                  Se ruta stort
+                </Link>
+                <a className="rounded-full bg-emerald-50 px-6 py-3 text-center font-black text-emerald-950 ring-1 ring-emerald-900/10 hover:bg-emerald-100" href={googleMapsUrl} target="_blank" rel="noreferrer">
                   {googleMapsLabel}
+                </a>
+                <a className="rounded-full bg-slate-50 px-6 py-3 text-center font-black text-slate-900 ring-1 ring-slate-900/10 hover:bg-slate-100" href={gpxUrl}>
+                  Last ned GPX
                 </a>
                 <SaveTrailButton trail={trail} variant="outline" />
               </div>
+
+              <p className="mt-3 text-xs font-semibold leading-6 text-slate-500">
+                Turrute viser selve rutegeometrien. Google Maps brukes til navigasjon der det gir mening, ellers til startpunkt. GPX kan åpnes i andre kartapper.
+              </p>
             </header>
           </div>
 
@@ -99,6 +112,17 @@ export default async function TrailDetailPage({ params }: { params: Promise<{ sl
           </div>
 
           <div className="border-t border-emerald-900/10 p-6 md:p-8">
+            <section className="mb-6 rounded-[1.8rem] bg-white p-5 ring-1 ring-emerald-900/10">
+              <h2 className="text-2xl font-black">Åpne turen i kart</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">Velg kartløsningen som passer. Turrute/GPX viser ruten som ligger i appen, mens Google og Apple kan beregne egen vei til start eller mellom start og slutt.</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <Link href={`/turer/${trail.slug}/kart`} className="rounded-2xl bg-emerald-950 px-4 py-3 text-center text-sm font-black text-white hover:bg-emerald-900">Se rute i Turrute</Link>
+                <a href={googleMapsUrl} target="_blank" rel="noreferrer" className="rounded-2xl bg-emerald-50 px-4 py-3 text-center text-sm font-black text-emerald-950 ring-1 ring-emerald-900/10 hover:bg-emerald-100">{googleMapsLabel}</a>
+                <a href={appleMapsUrl} target="_blank" rel="noreferrer" className="rounded-2xl bg-slate-50 px-4 py-3 text-center text-sm font-black text-slate-900 ring-1 ring-slate-900/10 hover:bg-slate-100">Apple Maps</a>
+                <a href={gpxUrl} className="rounded-2xl bg-sky-50 px-4 py-3 text-center text-sm font-black text-sky-950 ring-1 ring-sky-900/10 hover:bg-sky-100">Last ned GPX</a>
+                <a href={osmUrl} target="_blank" rel="noreferrer" className="rounded-2xl bg-stone-50 px-4 py-3 text-center text-sm font-black text-stone-900 ring-1 ring-stone-900/10 hover:bg-stone-100">OpenStreetMap</a>
+              </div>
+            </section>
             <h2 className="text-2xl font-black">Tags og datakilde</h2>
             <div className="mt-4 flex flex-wrap gap-2">
               {trail.tags.map((tag) => <span key={tag} className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 ring-1 ring-slate-900/10">{tag}</span>)}

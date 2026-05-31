@@ -76,3 +76,26 @@ export function googleMapsLabelForTrail(trail: Trail) {
 export function hasGoogleMapsRoute(route: RouteGeoJson) {
   return getCoordinates(route).length >= 2;
 }
+
+
+export function appleMapsUrlForTrail(trail: Trail) {
+  const coords = getCoordinates(trail.route_geojson as RouteGeoJson).filter(([lon, lat]) => Number.isFinite(lon) && Number.isFinite(lat));
+  const point = coords[0] ?? (trail.lat && trail.lng ? [trail.lng, trail.lat] as [number, number] : null);
+  if (!point) return 'https://maps.apple.com/';
+  const [lon, lat] = point;
+  const params = new URLSearchParams({ ll: `${lat},${lon}`, q: trail.name });
+  return `https://maps.apple.com/?${params.toString()}`;
+}
+
+export function osmUrlForTrail(trail: Trail) {
+  const coords = getCoordinates(trail.route_geojson as RouteGeoJson).filter(([lon, lat]) => Number.isFinite(lon) && Number.isFinite(lat));
+  const point = coords[0] ?? (trail.lat && trail.lng ? [trail.lng, trail.lat] as [number, number] : null);
+  if (!point) return 'https://www.openstreetmap.org/';
+  const [lon, lat] = point;
+  const zoom = 15;
+  return `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=${zoom}/${lat}/${lon}`;
+}
+
+export function gpxUrlForTrail(trail: Trail) {
+  return `/api/trails/${encodeURIComponent(trail.slug || trail.id)}/gpx`;
+}

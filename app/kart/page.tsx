@@ -11,6 +11,7 @@ export default async function MapPage() {
   const { trails, source, error } = await getTrails();
   const withRoutes = trails.filter(hasRouteGeometry);
   const realRoutes = trails.filter((trail) => hasRouteGeometry(trail) && hasRealRoute(trail));
+  const displayRoutes = withRoutes.length ? withRoutes : trails;
 
   return (
     <main className="min-h-screen bg-[#f4f7f2] pb-24 text-slate-950 md:pb-0">
@@ -37,19 +38,19 @@ export default async function MapPage() {
         <div className="mt-6 grid gap-3 md:grid-cols-4">
           <Stat value={String(trails.length)} label="turer i appen" />
           <Stat value={String(withRoutes.length)} label="med rutegeometri" />
-          <Stat value={String(realRoutes.length)} label="ekte importerte ruter" />
+          <Stat value={String(realRoutes.length)} label="Kartverket-ruter" />
           <Stat value={source} label="aktiv datakilde" error={error ?? undefined} />
         </div>
 
         <section className="mt-8">
-          <RouteOverviewMap trails={withRoutes.length ? withRoutes : trails} />
+          <RouteOverviewMap trails={displayRoutes} />
         </section>
 
-        {realRoutes.length === 0 ? (
+        {withRoutes.length === 0 ? (
           <section className="mt-8 rounded-[2rem] bg-amber-50 p-6 text-amber-950 ring-1 ring-amber-200">
             <h2 className="text-2xl font-black">Ingen publiserte kuraterte turer ennå</h2>
             <p className="mt-2 leading-7">
-              Appen viser ingen godkjente app-ruter ennå. Kjør Turrutebasen-importen, så får du levende rutedata fra Supabase.
+              Appen viser ingen turer med rutegeometri ennå. Kjør curated seed eller importer/kuratér ruter først.
             </p>
             <Link href="/admin/import" className="mt-5 inline-flex rounded-full bg-amber-900 px-5 py-3 text-sm font-black text-white hover:bg-amber-800">
               Gå til importstatus
@@ -59,7 +60,7 @@ export default async function MapPage() {
           <section className="mt-10">
             <h2 className="text-3xl font-black tracking-tight">Kuraterte ruter</h2>
             <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {realRoutes.slice(0, 12).map((trail) => <TrailCard key={trail.id} trail={trail} />)}
+              {displayRoutes.slice(0, 12).map((trail) => <TrailCard key={trail.id} trail={trail} />)}
             </div>
           </section>
         )}

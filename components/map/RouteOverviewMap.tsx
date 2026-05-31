@@ -12,7 +12,7 @@ export function RouteOverviewMap({ trails, selectedId }: { trails: Trail[]; sele
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-900/10 p-5">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-emerald-700">Levende kart</p>
-          <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">Ekte ruter fra databasen</h2>
+          <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">Ruter i appen</h2>
         </div>
         <div className="rounded-full bg-emerald-50 px-4 py-2 text-sm font-black text-emerald-900 ring-1 ring-emerald-900/10">
           {drawable.length} ruter med geometri
@@ -49,7 +49,7 @@ export function RouteOverviewMap({ trails, selectedId }: { trails: Trail[]; sele
         </svg>
 
         <div className="absolute left-4 top-4 rounded-full bg-white/90 px-4 py-2 text-xs font-black text-emerald-900 shadow-sm ring-1 ring-emerald-900/10 backdrop-blur">
-          {drawable.some(hasRealRoute) ? 'Kartverket-ruter importert' : 'Ingen ekte ruter importert ennå'}
+          {drawable.some(hasRealRoute) ? 'Kartverket-ruter importert' : 'Kuraterte app-ruter'}
         </div>
       </div>
 
@@ -62,7 +62,7 @@ export function RouteOverviewMap({ trails, selectedId }: { trails: Trail[]; sele
                 <h3 className="mt-1 line-clamp-1 font-black text-slate-950">{trail.name}</h3>
               </div>
               <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-black ${hasRealRoute(trail) ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'}`}>
-                {hasRealRoute(trail) ? 'Ekte' : 'Demo'}
+                {hasRealRoute(trail) ? 'Ekte' : 'Kuratert'}
               </span>
             </div>
             <p className="mt-2 text-sm font-semibold text-slate-500">{trail.distance_km} km · {trail.estimated_minutes} min · {trail.difficulty}</p>
