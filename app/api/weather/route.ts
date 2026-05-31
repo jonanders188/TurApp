@@ -29,6 +29,7 @@ function getConditionLabel(temp: number | null, wind: number | null, rain: numbe
   if ((rain ?? 0) > 2) return 'Vått turvær';
   if ((wind ?? 0) > 9) return 'Mye vind';
   if ((temp ?? 10) < 0) return 'Kaldt turvær';
+  if ((rain ?? 0) <= 0.2 && (wind ?? 0) <= 5) return 'Perfekt turvær';
   return 'Fint turvær';
 }
 
@@ -36,6 +37,7 @@ function getRecommendation(temp: number | null, wind: number | null, rain: numbe
   if ((rain ?? 0) > 2) return 'Ta regntøy og velg en kort tur med enkelt underlag.';
   if ((wind ?? 0) > 9) return 'Velg skjermet skogstur fremfor åpen kyststi akkurat nå.';
   if ((temp ?? 10) < 0) return 'Kle godt på barna og vurder kort runde.';
+  if ((rain ?? 0) <= 0.2 && (wind ?? 0) <= 5) return 'Lite vind og lite nedbør. Dette er et godt tidspunkt å gå tur.';
   return 'Gode forhold for nærtur de neste timene.';
 }
 

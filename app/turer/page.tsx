@@ -60,7 +60,7 @@ export default async function TrailsPage({ searchParams }: { searchParams?: Prom
                 ))}
               </div>
             </div>
-            <WeatherCard compact />
+            <WeatherCard compact lat={place?.lat ?? null} lng={place?.lng ?? null} placeLabel={place?.label ?? null} useUserLocation={!place} />
           </div>
         </header>
 
