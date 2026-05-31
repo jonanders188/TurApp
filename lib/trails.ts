@@ -142,8 +142,45 @@ export async function getTrails(filters: TrailFilters = {}) {
 }
 
 export async function getTrailBySlug(slug: string) {
-  const { trails, source, error } = await getTrails();
-  return { trail: trails.find((trail) => trail.slug === slug || trail.id === slug) ?? null, source, error };
+  const cleanSlug = decodeURIComponent(slug).trim();
+
+  if (hasSupabaseAdminConfig() || hasSupabaseConfig()) {
+    try {
+      const supabase = createReadClient();
+
+      const { data: bySlug, error: slugError } = await supabase
+        .from('trails')
+        .select('*')
+        .eq('published', true)
+        .eq('slug', cleanSlug)
+        .limit(1)
+        .maybeSingle();
+
+      if (slugError) throw new Error(slugError.message);
+      if (bySlug) return { trail: bySlug as Trail, source: 'supabase' as const, error: null };
+
+      const { data: byId, error: idError } = await supabase
+        .from('trails')
+        .select('*')
+        .eq('published', true)
+        .eq('id', cleanSlug)
+        .limit(1)
+        .maybeSingle();
+
+      if (idError) throw new Error(idError.message);
+      if (byId) return { trail: byId as Trail, source: 'supabase' as const, error: null };
+    } catch (error) {
+      const trail = localVestfoldTrails.find((trail) => trail.slug === cleanSlug || trail.id === cleanSlug) ?? null;
+      return {
+        trail,
+        source: 'curated-json' as const,
+        error: trail ? null : error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
+
+  const trail = localVestfoldTrails.find((trail) => trail.slug === cleanSlug || trail.id === cleanSlug) ?? null;
+  return { trail, source: 'curated-json' as const, error: trail ? null : 'Trail not found' };
 }
 
 export function getMunicipalities(trails: Trail[]) {
