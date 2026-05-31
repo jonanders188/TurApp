@@ -1,0 +1,934 @@
+{
+  "type": "FeatureCollection",
+  "name": "Turrute Vestfold demo trails",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "verdens-ende",
+        "name": "Verdens Ende",
+        "municipality": "Færder",
+        "area": "Tjøme",
+        "distance_km": 1.5,
+        "estimated_minutes": 35,
+        "difficulty": "Lett",
+        "surface_type": "Grus, asfalt, svaberg",
+        "elevation_gain_m": 20,
+        "suitable_stroller": true,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": true,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": true,
+        "has_bench": true,
+        "has_viewpoint": true,
+        "has_cafe_nearby": true,
+        "tags": [
+          "Havutsikt",
+          "Kort tur",
+          "Familievennlig",
+          "Tilgjengelig"
+        ],
+        "description": "Kort og vakker tur ytterst mot havet. Passer godt for deg som vil ha stor naturopplevelse uten lang tur.",
+        "data_quality_note": "Demo-data. Sjekk faktisk tilgjengelighet, underlag og sesongforhold før lansering."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.4147,
+            59.0526
+          ],
+          [
+            10.4161,
+            59.0529
+          ],
+          [
+            10.4172,
+            59.052
+          ],
+          [
+            10.4155,
+            59.0514
+          ],
+          [
+            10.4147,
+            59.0526
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "bokeskogen-larvik",
+        "name": "Bøkeskogen",
+        "municipality": "Larvik",
+        "area": "Larvik sentrum",
+        "distance_km": 2.4,
+        "estimated_minutes": 45,
+        "difficulty": "Lett",
+        "surface_type": "Grusvei, sti",
+        "elevation_gain_m": 35,
+        "suitable_stroller": true,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": false,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": true,
+        "has_bench": true,
+        "has_viewpoint": false,
+        "has_cafe_nearby": true,
+        "tags": [
+          "Skog",
+          "Skygge",
+          "Barn",
+          "Lett å gå"
+        ],
+        "description": "Rolig skogstur med brede stier og mange muligheter for kortere runder.",
+        "data_quality_note": "Demo-data. Sjekk faktisk tilgjengelighet, underlag og sesongforhold før lansering."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.0346,
+            59.0584
+          ],
+          [
+            10.0371,
+            59.059
+          ],
+          [
+            10.039,
+            59.0574
+          ],
+          [
+            10.0362,
+            59.0564
+          ],
+          [
+            10.0346,
+            59.0584
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "karljohansvern",
+        "name": "Karljohansvern",
+        "municipality": "Horten",
+        "area": "Horten",
+        "distance_km": 3.2,
+        "estimated_minutes": 60,
+        "difficulty": "Lett",
+        "surface_type": "Asfalt, grus",
+        "elevation_gain_m": 15,
+        "suitable_stroller": true,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": true,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": true,
+        "has_bench": true,
+        "has_viewpoint": true,
+        "has_cafe_nearby": true,
+        "tags": [
+          "Kyst",
+          "Kultur",
+          "Kafé i nærheten",
+          "Tilgjengelig"
+        ],
+        "description": "Bynær tur med sjø, historie og fine stoppesteder underveis.",
+        "data_quality_note": "Demo-data. Sjekk faktisk tilgjengelighet, underlag og sesongforhold før lansering."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.485,
+            59.4214
+          ],
+          [
+            10.489,
+            59.4218
+          ],
+          [
+            10.4901,
+            59.4197
+          ],
+          [
+            10.4864,
+            59.4187
+          ],
+          [
+            10.485,
+            59.4214
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "molen",
+        "name": "Mølen",
+        "municipality": "Larvik",
+        "area": "Brunlanes",
+        "distance_km": 2,
+        "estimated_minutes": 45,
+        "difficulty": "Lett / middels",
+        "surface_type": "Sti, rullestein",
+        "elevation_gain_m": 25,
+        "suitable_stroller": false,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": false,
+        "suitable_easy_walk": false,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": true,
+        "has_bench": false,
+        "has_viewpoint": true,
+        "has_cafe_nearby": false,
+        "tags": [
+          "Havutsikt",
+          "Geologi",
+          "Bæremeis",
+          "Barn"
+        ],
+        "description": "Spektakulær kysttur med rullestein og åpent hav. Best med bæremeis eller større barn.",
+        "data_quality_note": "Demo-data. Ikke merk som barnevogn/rullestol uten konkret verifisering av ønsket trase."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            9.8267,
+            58.9713
+          ],
+          [
+            9.83,
+            58.9706
+          ],
+          [
+            9.8336,
+            58.97
+          ],
+          [
+            9.8312,
+            58.969
+          ],
+          [
+            9.8267,
+            58.9713
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ilene-naturreservat",
+        "name": "Ilene naturreservat",
+        "municipality": "Tønsberg",
+        "area": "Ilene",
+        "distance_km": 2,
+        "estimated_minutes": 40,
+        "difficulty": "Lett",
+        "surface_type": "Grus, tredekke",
+        "elevation_gain_m": 5,
+        "suitable_stroller": true,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": true,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": false,
+        "has_parking": true,
+        "has_toilet": false,
+        "has_bench": true,
+        "has_viewpoint": true,
+        "has_cafe_nearby": false,
+        "tags": [
+          "Fugletitting",
+          "Flatt",
+          "Naturreservat",
+          "Tilgjengelig"
+        ],
+        "description": "Flat og rolig tur med fugletårn og natur tett på byen.",
+        "data_quality_note": "Demo-data. Sjekk lokale ferdselsregler og hunderegler for naturreservat."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.3765,
+            59.2736
+          ],
+          [
+            10.3782,
+            59.2743
+          ],
+          [
+            10.3795,
+            59.2733
+          ],
+          [
+            10.3771,
+            59.2727
+          ],
+          [
+            10.3765,
+            59.2736
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "borrehaugene",
+        "name": "Borrehaugene",
+        "municipality": "Horten",
+        "area": "Borre",
+        "distance_km": 2.7,
+        "estimated_minutes": 50,
+        "difficulty": "Lett",
+        "surface_type": "Grus, gress, sti",
+        "elevation_gain_m": 30,
+        "suitable_stroller": true,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": false,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": true,
+        "has_bench": true,
+        "has_viewpoint": true,
+        "has_cafe_nearby": true,
+        "tags": [
+          "Historie",
+          "Åpent landskap",
+          "Barn",
+          "Kultur"
+        ],
+        "description": "Historisk tur i åpent landskap med god plass og spennende stopp for barn.",
+        "data_quality_note": "Demo-data. Rullestolvennlighet må kvalitetssikres per trase og sesong."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.4695,
+            59.3835
+          ],
+          [
+            10.472,
+            59.3843
+          ],
+          [
+            10.4735,
+            59.3829
+          ],
+          [
+            10.4707,
+            59.3818
+          ],
+          [
+            10.4695,
+            59.3835
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "slottsfjellet-rundt",
+        "name": "Slottsfjellet rundt",
+        "municipality": "Tønsberg",
+        "area": "Tønsberg sentrum",
+        "distance_km": 1.8,
+        "estimated_minutes": 35,
+        "difficulty": "Lett / middels",
+        "surface_type": "Asfalt, grus, sti",
+        "elevation_gain_m": 45,
+        "suitable_stroller": false,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": false,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": true,
+        "has_bench": true,
+        "has_viewpoint": true,
+        "has_cafe_nearby": true,
+        "tags": [
+          "Utsikt",
+          "Historie",
+          "Kort tur",
+          "Sentrum"
+        ],
+        "description": "Kort bynær tur med utsikt over Tønsberg og historiske omgivelser.",
+        "data_quality_note": "Demo-data. Ikke merk som rullestolvennlig uten verifisert tilgjengelig rute."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.4079,
+            59.2704
+          ],
+          [
+            10.4093,
+            59.271
+          ],
+          [
+            10.4101,
+            59.27
+          ],
+          [
+            10.4084,
+            59.2693
+          ],
+          [
+            10.4079,
+            59.2704
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "holmestrand-fjordpromenade",
+        "name": "Holmestrand fjordpromenade",
+        "municipality": "Holmestrand",
+        "area": "Holmestrand sentrum",
+        "distance_km": 2.2,
+        "estimated_minutes": 40,
+        "difficulty": "Lett",
+        "surface_type": "Asfalt, grus",
+        "elevation_gain_m": 5,
+        "suitable_stroller": true,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": true,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": true,
+        "has_bench": true,
+        "has_viewpoint": true,
+        "has_cafe_nearby": true,
+        "tags": [
+          "Fjord",
+          "Promenade",
+          "Tilgjengelig",
+          "Kort tur"
+        ],
+        "description": "Flat tur langs fjorden med enkel adkomst fra sentrum.",
+        "data_quality_note": "Demo-data. Verifiser universell utforming og eventuelle brudd i traseen."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.3167,
+            59.4898
+          ],
+          [
+            10.3181,
+            59.4906
+          ],
+          [
+            10.3204,
+            59.4912
+          ],
+          [
+            10.321,
+            59.4904
+          ],
+          [
+            10.3167,
+            59.4898
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "hjertnesstranda",
+        "name": "Hjertnesstranda og strandpromenaden",
+        "municipality": "Sandefjord",
+        "area": "Sandefjord sentrum",
+        "distance_km": 2,
+        "estimated_minutes": 35,
+        "difficulty": "Lett",
+        "surface_type": "Asfalt, grus",
+        "elevation_gain_m": 5,
+        "suitable_stroller": true,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": true,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": true,
+        "has_bench": true,
+        "has_viewpoint": true,
+        "has_cafe_nearby": true,
+        "tags": [
+          "Strand",
+          "Promenade",
+          "Tilgjengelig",
+          "Sentrum"
+        ],
+        "description": "Lavterskel tur nær sentrum, strand og vann. Fin for korte lufteturer.",
+        "data_quality_note": "Demo-data. Sjekk tilgjengelighet og vinterforhold før lansering."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.2219,
+            59.1276
+          ],
+          [
+            10.224,
+            59.1281
+          ],
+          [
+            10.2262,
+            59.1284
+          ],
+          [
+            10.2268,
+            59.1275
+          ],
+          [
+            10.2219,
+            59.1276
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "midtasen",
+        "name": "Midtåsen",
+        "municipality": "Sandefjord",
+        "area": "Sandefjord",
+        "distance_km": 2.1,
+        "estimated_minutes": 45,
+        "difficulty": "Lett / middels",
+        "surface_type": "Grus, sti",
+        "elevation_gain_m": 60,
+        "suitable_stroller": false,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": false,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": false,
+        "has_bench": true,
+        "has_viewpoint": true,
+        "has_cafe_nearby": false,
+        "tags": [
+          "Utsikt",
+          "Park",
+          "Barn",
+          "Kort tur"
+        ],
+        "description": "Kort tur med utsikt og parkpreg. Passer best for gående barn eller bæremeis.",
+        "data_quality_note": "Demo-data. Stigning og tilgjengelighet må valideres."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.243,
+            59.1372
+          ],
+          [
+            10.245,
+            59.1378
+          ],
+          [
+            10.2462,
+            59.1368
+          ],
+          [
+            10.2441,
+            59.1359
+          ],
+          [
+            10.243,
+            59.1372
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "eidsfoss-kultursti",
+        "name": "Eidsfoss kultursti",
+        "municipality": "Holmestrand",
+        "area": "Eidsfoss",
+        "distance_km": 2.5,
+        "estimated_minutes": 50,
+        "difficulty": "Lett",
+        "surface_type": "Grus, sti, asfalt",
+        "elevation_gain_m": 30,
+        "suitable_stroller": true,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": false,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": true,
+        "has_bench": true,
+        "has_viewpoint": true,
+        "has_cafe_nearby": true,
+        "tags": [
+          "Kultur",
+          "Vann",
+          "Barn",
+          "Historie"
+        ],
+        "description": "Koselig tur med kulturmiljø, vann og korte stopp underveis.",
+        "data_quality_note": "Demo-data. Verifiser om hele runden passer barnevogn."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.033,
+            59.5966
+          ],
+          [
+            10.0355,
+            59.5971
+          ],
+          [
+            10.037,
+            59.5959
+          ],
+          [
+            10.034,
+            59.5951
+          ],
+          [
+            10.033,
+            59.5966
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "teieskogen",
+        "name": "Teieskogen",
+        "municipality": "Færder",
+        "area": "Nøtterøy",
+        "distance_km": 2.8,
+        "estimated_minutes": 55,
+        "difficulty": "Lett",
+        "surface_type": "Grusvei, sti",
+        "elevation_gain_m": 40,
+        "suitable_stroller": true,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": false,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": false,
+        "has_bench": true,
+        "has_viewpoint": false,
+        "has_cafe_nearby": false,
+        "tags": [
+          "Skog",
+          "Nærtur",
+          "Barn",
+          "Lett å gå"
+        ],
+        "description": "Enkel skogstur nær boligområder, fin for korte ettermiddagsturer.",
+        "data_quality_note": "Demo-data. Kontroller underlag og våte partier."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.4183,
+            59.251
+          ],
+          [
+            10.4204,
+            59.252
+          ],
+          [
+            10.4212,
+            59.2508
+          ],
+          [
+            10.4191,
+            59.2499
+          ],
+          [
+            10.4183,
+            59.251
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "stavern-kyststi",
+        "name": "Stavern kyststi",
+        "municipality": "Larvik",
+        "area": "Stavern",
+        "distance_km": 4.5,
+        "estimated_minutes": 90,
+        "difficulty": "Lett / middels",
+        "surface_type": "Sti, grus, svaberg",
+        "elevation_gain_m": 65,
+        "suitable_stroller": false,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": false,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": true,
+        "has_bench": true,
+        "has_viewpoint": true,
+        "has_cafe_nearby": true,
+        "tags": [
+          "Kyststi",
+          "Havutsikt",
+          "Bæremeis",
+          "Sommer"
+        ],
+        "description": "Kysttur med sjøutsikt, svaberg og fine små stopp underveis.",
+        "data_quality_note": "Demo-data. Delstrekk varierer i underlag og tilgjengelighet."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.0359,
+            59.0006
+          ],
+          [
+            10.039,
+            59.0002
+          ],
+          [
+            10.0425,
+            58.9997
+          ],
+          [
+            10.046,
+            58.999
+          ],
+          [
+            10.0359,
+            59.0006
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "goksjo-kort-tur",
+        "name": "Goksjø kort tur",
+        "municipality": "Sandefjord",
+        "area": "Goksjø",
+        "distance_km": 3.5,
+        "estimated_minutes": 75,
+        "difficulty": "Lett",
+        "surface_type": "Grus, sti",
+        "elevation_gain_m": 35,
+        "suitable_stroller": false,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": false,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": false,
+        "has_bench": false,
+        "has_viewpoint": true,
+        "has_cafe_nearby": false,
+        "tags": [
+          "Vann",
+          "Rolig",
+          "Bæremeis",
+          "Barn"
+        ],
+        "description": "Velg kort runde eller delstrekk etter tid. Fin naturtur ved vann.",
+        "data_quality_note": "Demo-data. Goksjø rundt som helhet kan være langt; bruk definerte delstrekk i MVP."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.1605,
+            59.1995
+          ],
+          [
+            10.1634,
+            59.2003
+          ],
+          [
+            10.1662,
+            59.1997
+          ],
+          [
+            10.164,
+            59.1984
+          ],
+          [
+            10.1605,
+            59.1995
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "farrisvannet-promenade",
+        "name": "Farrisvannet promenade",
+        "municipality": "Larvik",
+        "area": "Larvik",
+        "distance_km": 2,
+        "estimated_minutes": 40,
+        "difficulty": "Lett",
+        "surface_type": "Asfalt, grus",
+        "elevation_gain_m": 10,
+        "suitable_stroller": true,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": true,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": false,
+        "has_bench": true,
+        "has_viewpoint": true,
+        "has_cafe_nearby": true,
+        "tags": [
+          "Vann",
+          "Promenade",
+          "Kort tur",
+          "Tilgjengelig"
+        ],
+        "description": "Fin tur nær vannet med enkel adkomst og lite stigning.",
+        "data_quality_note": "Demo-data. Verifiser presis trasé og tilgjengelighet."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.029,
+            59.066
+          ],
+          [
+            10.0312,
+            59.0665
+          ],
+          [
+            10.0333,
+            59.0662
+          ],
+          [
+            10.032,
+            59.0653
+          ],
+          [
+            10.029,
+            59.066
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "indre-havn-horten",
+        "name": "Indre havn-runden",
+        "municipality": "Horten",
+        "area": "Horten sentrum",
+        "distance_km": 1.8,
+        "estimated_minutes": 30,
+        "difficulty": "Lett",
+        "surface_type": "Asfalt, kaiområde",
+        "elevation_gain_m": 3,
+        "suitable_stroller": true,
+        "suitable_baby_carrier": true,
+        "suitable_wheelchair": true,
+        "suitable_easy_walk": true,
+        "suitable_children": true,
+        "suitable_dog": true,
+        "has_parking": true,
+        "has_toilet": true,
+        "has_bench": true,
+        "has_viewpoint": true,
+        "has_cafe_nearby": true,
+        "tags": [
+          "Havn",
+          "Kort tur",
+          "Tilgjengelig",
+          "Kafé"
+        ],
+        "description": "Kort tur ved vannet, fin for en liten luftetur med barnevogn eller rullestol.",
+        "data_quality_note": "Demo-data. Sjekk anleggsarbeid, kaikanter og vintervedlikehold."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.4857,
+            59.4147
+          ],
+          [
+            10.488,
+            59.415
+          ],
+          [
+            10.4892,
+            59.4138
+          ],
+          [
+            10.4868,
+            59.4132
+          ],
+          [
+            10.4857,
+            59.4147
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "url": "https://wfs.geonorge.no/skwms1/wfs.turogfriluftsruter?service=WFS&request=GetCapabilities",
+  "featureTypes": [
+    {
+      "name": "app:AnnenRute",
+      "title": "AnnenRute",
+      "abstract": ""
+    },
+    {
+      "name": "app:Fotrute",
+      "title": "Fotrute",
+      "abstract": ""
+    },
+    {
+      "name": "app:RuteInfoPunkt",
+      "title": "RuteInfoPunkt",
+      "abstract": ""
+    },
+    {
+      "name": "app:Skiløype",
+      "title": "Skiløype",
+      "abstract": ""
+    },
+    {
+      "name": "app:Sykkelrute",
+      "title": "Sykkelrute",
+      "abstract": ""
+    }
+  ]
+}
