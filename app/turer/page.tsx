@@ -4,7 +4,9 @@ import { AppBottomNav } from '@/components/ui/AppBottomNav';
 import { FilterChip } from '@/components/ui/FilterChip';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { WeatherCard } from '@/components/ui/WeatherCard';
+import { TrailRoutePreview } from '@/components/map/TrailRoutePreview';
 import { getMunicipalities, getTrails } from '@/lib/trails';
+import { getGeometryQuality } from '@/lib/geo';
 import type { TrailFilters } from '@/types/trail';
 
 export const dynamic = 'force-dynamic';
@@ -28,31 +30,51 @@ export default async function TrailsPage({ searchParams }: { searchParams?: Prom
   const { trails, source, error } = await getTrails({ suitable, municipality, maxDistanceKm });
   const { trails: allTrails } = await getTrails();
   const municipalities = getMunicipalities(allTrails);
-  const withRouteCount = trails.filter((trail) => trail.route_geojson?.coordinates?.length && trail.route_geojson.coordinates.length > 1).length;
+  const featuredTrail = trails[0] ?? null;
+  const detailedCount = trails.filter((trail) => ['good', 'detailed'].includes(getGeometryQuality(trail))).length;
 
   return (
     <main className="min-h-screen bg-[#f4f7f2] pb-24 text-slate-950 md:pb-0">
-      <section className="mx-auto max-w-7xl px-5 py-6 md:px-8 md:py-10">
+      <section className="mx-auto max-w-6xl px-4 py-5 md:px-8 md:py-10">
         <nav className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 font-black text-emerald-950">
             <span className="grid h-11 w-11 place-items-center rounded-2xl bg-emerald-900 text-white">⌁</span>
-            <span>Turrute</span>
+            <span className="text-xl">Turrute</span>
           </Link>
           <div className="rounded-full bg-white px-4 py-2 text-sm font-bold text-emerald-900 shadow-sm ring-1 ring-emerald-900/10">{trails.length} turer</div>
         </nav>
 
-        <header className="mt-8 grid gap-5 lg:grid-cols-[1fr_0.8fr] lg:items-stretch">
-          <div className="rounded-[2.2rem] bg-white p-6 shadow-sm ring-1 ring-emerald-900/10 md:p-8">
-            <Link href="/" className="text-sm font-black text-emerald-700">← Til forsiden</Link>
-            <p className="mt-7 text-xs font-black uppercase tracking-[0.25em] text-emerald-700">Vestfold</p>
-            <h1 className="mt-3 text-5xl font-black tracking-tight md:text-7xl">Turer nær deg</h1>
-            <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
-              Filtrer på behov som barnevogn, bæremeis, rullestol, barn, hund og lette nærturer. Appen viser kuraterte turforslag først. Rå Turrutebasen-data og OSM brukes som datagrunnlag, ikke som ukritiske ferdigturer.
-            </p>
-            <div className="mt-6"><SearchBar /></div>
+        <header className="mt-5 overflow-hidden rounded-[2.2rem] bg-white shadow-sm ring-1 ring-emerald-900/10">
+          <div className="grid gap-5 p-5 md:p-8 lg:grid-cols-[1fr_0.85fr] lg:items-center">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.24em] text-emerald-700">Vestfold · mobil først</p>
+              <h1 className="mt-3 text-4xl font-black tracking-tight text-emerald-950 md:text-6xl">Finn en tur du faktisk får lyst til å gå.</h1>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
+                Vi viser kuraterte turer først, med tydelig rute, praktiske behov og værvindu. Når dataene er for grove, sier vi ifra i stedet for å late som kartet er mer detaljert enn det er.
+              </p>
+              <div className="mt-5"><SearchBar /></div>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {Object.entries(filterLabels).slice(1).map(([key, item]) => (
+                  <FilterChip key={key} href={`/turer?suitable=${key}`} label={item.label} icon={item.icon} active={suitable === key} />
+                ))}
+              </div>
+            </div>
+            <WeatherCard compact />
           </div>
-          <WeatherCard compact />
         </header>
+
+        {featuredTrail ? (
+          <section className="mt-6 rounded-[2rem] bg-white p-4 shadow-sm ring-1 ring-emerald-900/10 md:p-5">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-emerald-700">Anbefalt akkurat nå</p>
+                <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">Se formen på turen før du bestemmer deg</h2>
+              </div>
+              <Link href={`/turer/${featuredTrail.slug}`} className="rounded-full bg-emerald-950 px-4 py-2 text-sm font-black text-white hover:bg-emerald-900">Åpne</Link>
+            </div>
+            <TrailRoutePreview trail={featuredTrail} compact={false} />
+          </section>
+        ) : null}
 
         <section className="mt-6 rounded-[2rem] bg-white p-4 shadow-sm ring-1 ring-emerald-900/10 md:p-5">
           <div className="flex flex-wrap gap-2">
@@ -62,24 +84,31 @@ export default async function TrailsPage({ searchParams }: { searchParams?: Prom
               return <FilterChip key={key} href={href} label={item.label} icon={item.icon} active={active} />;
             })}
           </div>
-          <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4">
+          <div className="mt-4 flex gap-2 overflow-x-auto border-t border-slate-100 pt-4 pb-1">
+            <Link href="/turer" className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-bold ${!municipality ? 'bg-slate-950 text-white' : 'bg-slate-100 text-slate-700'}`}>
+              Alle steder
+            </Link>
             {municipalities.map((name) => (
-              <Link key={name} href={`/turer?municipality=${encodeURIComponent(name)}`} className={`rounded-full px-4 py-2 text-sm font-bold ${municipality === name ? 'bg-slate-950 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}>
+              <Link key={name} href={`/turer?municipality=${encodeURIComponent(name)}`} className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-bold ${municipality === name ? 'bg-slate-950 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}>
                 {name}
               </Link>
             ))}
           </div>
         </section>
 
-        <div className="mt-6 grid gap-3 md:grid-cols-3">
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
           <Stat value={String(trails.length)} label="matcher filteret" />
-          <Stat value={String(withRouteCount)} label="har rutegeometri" />
+          <Stat value={String(detailedCount)} label="har god/detaljert rute" />
           <Stat value={source} label="datakilde" error={error ?? undefined} />
         </div>
 
+        <section className="mt-6 rounded-[1.7rem] bg-amber-50 p-4 text-sm leading-6 text-amber-950 ring-1 ring-amber-200">
+          <strong className="font-black">Ærlig status på rutedata:</strong> En del av de kuraterte turene har fortsatt få rutepunkter. De fungerer fint for å velge tur og se hovedformen på turen, men ikke alle er detaljerte nok for presis stinavigasjon. Da anbefaler vi å åpne ruten i kartmodus eller bruke GPX når bedre spor er tilgjengelig.
+        </section>
+
         {trails.length ? (
           <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {trails.map((trail) => <TrailCard key={trail.id} trail={trail} />)}
+            {trails.map((trail, index) => <TrailCard key={trail.id} trail={trail} featured={index === 0} />)}
           </div>
         ) : (
           <div className="mt-8 rounded-[1.75rem] bg-white p-8 text-slate-600 shadow-sm">Ingen turer matcher filteret ennå.</div>

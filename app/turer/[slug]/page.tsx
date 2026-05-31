@@ -1,15 +1,22 @@
+import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { TrailRoutePreview } from '@/components/map/TrailRoutePreview';
 import { AppBottomNav } from '@/components/ui/AppBottomNav';
+import { TrailLeafletMap } from '@/components/map/TrailLeafletMap';
 import { SuitabilityBadge } from '@/components/ui/SuitabilityBadge';
 import { LiveWeatherCard } from '@/components/LiveWeatherCard';
 import { SaveTrailButton } from '@/components/SaveTrailButton';
 import { AccessibilityReportForm } from '@/components/AccessibilityReportForm';
 import { NearbyAmenitiesCard } from '@/components/NearbyAmenitiesCard';
 import { getSuitabilityTags, getTrailBySlug } from '@/lib/trails';
-import { hasRealRoute } from '@/lib/geo';
-import { appleMapsUrlForTrail, googleMapsLabelForTrail, googleMapsUrlForTrail, gpxUrlForTrail, osmUrlForTrail, shouldUseGoogleDirections } from '@/lib/googleMaps';
+import {
+  getGeometryQualityLabel,
+  getGeometryQualityMessage,
+  getRoutePointCount,
+  getRouteShapeLabel,
+  hasRealRoute,
+} from '@/lib/geo';
+import { appleMapsUrlForTrail, googleMapsLabelForTrail, googleMapsUrlForTrail, gpxUrlForTrail, osmUrlForTrail } from '@/lib/googleMaps';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,118 +27,120 @@ export default async function TrailDetailPage({ params }: { params: Promise<{ sl
   if (!trail) notFound();
 
   const suitabilityTags = getSuitabilityTags(trail);
-  const hasRoute = Boolean(trail.route_geojson?.coordinates?.length && trail.route_geojson.coordinates.length > 1);
   const realRoute = hasRealRoute(trail);
   const googleMapsUrl = googleMapsUrlForTrail(trail);
-  const googleMapsHasRoute = shouldUseGoogleDirections(trail);
   const googleMapsLabel = googleMapsLabelForTrail(trail);
   const gpxUrl = gpxUrlForTrail(trail);
   const appleMapsUrl = appleMapsUrlForTrail(trail);
   const osmUrl = osmUrlForTrail(trail);
+  const qualityLabel = getGeometryQualityLabel(trail);
+  const qualityMessage = getGeometryQualityMessage(trail);
+  const shapeLabel = getRouteShapeLabel(trail);
+  const pointCount = getRoutePointCount(trail);
 
   return (
-    <main className="min-h-screen bg-[#f4f7f2] pb-24 text-slate-950 md:pb-0">
-      <article className="mx-auto max-w-6xl px-5 py-6 md:px-8 md:py-10">
-        <div className="overflow-hidden rounded-[2.4rem] bg-white shadow-2xl shadow-emerald-950/10 ring-1 ring-emerald-900/10">
-          <div className="relative grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="relative min-h-[22rem] bg-emerald-100">
-              <TrailRoutePreview trail={trail} />
-              <div className="absolute left-5 top-5 flex gap-2">
-                <Link href="/turer" className="rounded-full bg-white/90 px-4 py-2 text-sm font-black text-emerald-950 shadow-sm backdrop-blur">← Turer</Link>
+    <main className="min-h-screen bg-[#f4f7f2] pb-28 text-slate-950 md:pb-0">
+      <article className="mx-auto max-w-6xl px-4 py-5 md:px-8 md:py-10">
+        <Link href="/turer" className="inline-flex rounded-full bg-white px-4 py-2 text-sm font-black text-emerald-950 shadow-sm ring-1 ring-emerald-900/10">← Til turene</Link>
+
+        <div className="mt-5 overflow-hidden rounded-[2.2rem] bg-white shadow-xl shadow-emerald-950/10 ring-1 ring-emerald-900/10">
+          <div className="p-4 md:p-6">
+            <TrailLeafletMap trail={trail} heightClass="h-[23rem] md:h-[32rem]" interactive followUser={false} />
+          </div>
+
+          <div className="grid gap-6 px-5 pb-6 md:px-8 md:pb-8 lg:grid-cols-[1.05fr_0.95fr]">
+            <section>
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge>{qualityLabel}</Badge>
+                <Badge>{shapeLabel}</Badge>
+                <Badge>{realRoute ? 'Ekte rutedata' : 'Kuratert rute'}</Badge>
               </div>
-            </div>
 
-            <header className="p-6 md:p-9">
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-emerald-700">{trail.municipality}{trail.area ? ` · ${trail.area}` : ''}</p>
-              <h1 className="mt-3 text-5xl font-black tracking-tight text-slate-950 md:text-7xl">{trail.name}</h1>
-              <p className="mt-5 text-base leading-8 text-slate-600">{trail.description}</p>
+              <p className="mt-4 text-xs font-black uppercase tracking-[0.24em] text-emerald-700">{trail.municipality}{trail.area ? ` · ${trail.area}` : ''}</p>
+              <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-950 md:text-6xl">{trail.name}</h1>
+              <p className="mt-4 text-base leading-7 text-slate-600">{trail.description}</p>
 
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+              <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 <Metric label="Distanse" value={`${trail.distance_km} km`} />
                 <Metric label="Tid" value={`${trail.estimated_minutes} min`} />
                 <Metric label="Nivå" value={trail.difficulty} />
                 <Metric label="Stigning" value={`${trail.elevation_gain_m ?? 0} m`} />
               </div>
 
-              <div className="mt-6 flex flex-wrap gap-2">
-                {suitabilityTags.map((tag) => <SuitabilityBadge key={tag} label={tag} />)}
+              <div className="mt-5 flex flex-wrap gap-2">
+                {suitabilityTags.length ? suitabilityTags.map((tag) => <SuitabilityBadge key={tag} label={tag} />) : <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">Tilgjengelighet ukjent</span>}
               </div>
 
-              <div className="mt-7 grid gap-3 sm:grid-cols-2">
+              <div className="mt-5 rounded-[1.5rem] bg-amber-50 p-4 ring-1 ring-amber-200">
+                <p className="text-sm font-black text-amber-950">Kartkvalitet: {qualityLabel}</p>
+                <p className="mt-2 text-sm leading-6 text-amber-900">{qualityMessage}</p>
+              </div>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 <Link className="rounded-full bg-emerald-950 px-6 py-3 text-center font-black text-white hover:bg-emerald-900" href={`/turer/${trail.slug}/kart`}>
-                  Se ruta stort
+                  Start tur på kart
                 </Link>
                 <a className="rounded-full bg-emerald-50 px-6 py-3 text-center font-black text-emerald-950 ring-1 ring-emerald-900/10 hover:bg-emerald-100" href={googleMapsUrl} target="_blank" rel="noreferrer">
                   {googleMapsLabel}
                 </a>
-                <a className="rounded-full bg-slate-50 px-6 py-3 text-center font-black text-slate-900 ring-1 ring-slate-900/10 hover:bg-slate-100" href={gpxUrl}>
+                <a className="rounded-full bg-sky-50 px-6 py-3 text-center font-black text-sky-950 ring-1 ring-sky-900/10 hover:bg-sky-100" href={gpxUrl}>
                   Last ned GPX
                 </a>
                 <SaveTrailButton trail={trail} variant="outline" />
               </div>
+            </section>
 
-              <p className="mt-3 text-xs font-semibold leading-6 text-slate-500">
-                Turrute viser selve rutegeometrien. Google Maps brukes til navigasjon der det gir mening, ellers til startpunkt. GPX kan åpnes i andre kartapper.
-              </p>
-            </header>
-          </div>
-
-          <div className="grid gap-5 border-t border-emerald-900/10 p-6 md:grid-cols-[0.9fr_1.1fr] md:p-8">
-            <div className="grid gap-5">
-              <LiveWeatherCard lat={trail.lat} lng={trail.lng} compact />
-              <NearbyAmenitiesCard lat={trail.lat} lng={trail.lng} />
-            </div>
-            <section className="rounded-[1.8rem] bg-slate-50 p-5 ring-1 ring-slate-900/5">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h2 className="text-2xl font-black tracking-tight">Praktisk informasjon</h2>
-                  <p className="mt-1 text-sm text-slate-500">Detaljer som gjør turen lettere å velge.</p>
+            <section className="grid gap-5">
+              <div className="rounded-[1.8rem] bg-slate-50 p-5 ring-1 ring-slate-900/5">
+                <h2 className="text-2xl font-black tracking-tight text-slate-950">Når bør du gå?</h2>
+                <p className="mt-2 text-sm leading-6 text-slate-600">Bruk vær og egnethet til å bestemme om denne turen passer akkurat nå.</p>
+                <div className="mt-4">
+                  <LiveWeatherCard lat={trail.lat} lng={trail.lng} compact />
                 </div>
-                <span className={`rounded-full px-3 py-1 text-xs font-black ${hasRoute ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}`}>
-                  {hasRoute ? (realRoute ? 'Ekte rute' : 'Rute klar') : 'Kun punkt'}
-                </span>
               </div>
-              <dl className="mt-5 divide-y divide-slate-200 rounded-[1.4rem] bg-white px-4 ring-1 ring-slate-900/5">
-                <Info label="Underlag" value={trail.surface_type ?? 'Ukjent'} />
-                <Info label="Turtype" value={trail.route_type ?? 'Ukjent'} />
-                <Info label="Parkering" value={trail.has_parking ? 'Ja' : 'Ukjent'} />
-                <Info label="Toalett" value={trail.has_toilet ? 'Ja' : 'Ukjent'} />
-                <Info label="Koordinater" value={trail.lat && trail.lng ? `${trail.lat}, ${trail.lng}` : 'Mangler'} />
-              </dl>
+
+              <div className="rounded-[1.8rem] bg-slate-50 p-5 ring-1 ring-slate-900/5">
+                <h2 className="text-2xl font-black tracking-tight text-slate-950">Praktisk informasjon</h2>
+                <dl className="mt-4 divide-y divide-slate-200 rounded-[1.4rem] bg-white px-4 ring-1 ring-slate-900/5">
+                  <Info label="Turform" value={shapeLabel} />
+                  <Info label="Underlag" value={trail.surface_type ?? 'Ukjent'} />
+                  <Info label="Parkering" value={trail.has_parking ? 'Ja' : 'Ukjent'} />
+                  <Info label="Toalett" value={trail.has_toilet ? 'Ja' : 'Ukjent'} />
+                  <Info label="Rutepunkter" value={String(pointCount)} />
+                </dl>
+              </div>
+
+              <NearbyAmenitiesCard lat={trail.lat} lng={trail.lng} />
             </section>
           </div>
 
-
-          <div className="grid gap-5 border-t border-emerald-900/10 p-6 md:grid-cols-[1fr_1fr] md:p-8">
+          <div className="grid gap-5 border-t border-emerald-900/10 p-5 md:grid-cols-[1fr_1fr] md:p-8">
             <AccessibilityReportForm trailId={trail.id} />
             <section className="rounded-[1.8rem] bg-emerald-950 p-6 text-white shadow-sm">
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-emerald-200">Neste nivå</p>
-              <h2 className="mt-3 text-3xl font-black tracking-tight">Kvalitetssikring før lansering</h2>
-              <p className="mt-4 text-sm leading-7 text-emerald-50">Denne siden kan nå vise ekte rutegeometri fra Kartverket/Geonorge. Før offentlig lansering bør rullestoltilgang, underlag og praktisk info sjekkes mot feltdata eller lokale kilder.</p>
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-emerald-200">Kart og navigasjon</p>
+              <h2 className="mt-3 text-3xl font-black tracking-tight">Åpne turen i riktig kartverktøy</h2>
+              <p className="mt-4 text-sm leading-7 text-emerald-50">Turrute-kartet er best for å se selve turen. Google og Apple er best for å komme deg til start eller for enkel navigasjon. GPX er best når du trenger et faktisk spor i en ekstern app.</p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <Link href={`/turer/${trail.slug}/kart`} className="rounded-2xl bg-white px-4 py-3 text-center text-sm font-black text-emerald-950 hover:bg-emerald-50">Åpne stort Turrute-kart</Link>
+                <a href={osmUrl} target="_blank" rel="noreferrer" className="rounded-2xl bg-white/10 px-4 py-3 text-center text-sm font-black text-white ring-1 ring-white/15 hover:bg-white/15">OpenStreetMap</a>
+                <a href={appleMapsUrl} target="_blank" rel="noreferrer" className="rounded-2xl bg-white/10 px-4 py-3 text-center text-sm font-black text-white ring-1 ring-white/15 hover:bg-white/15">Apple Maps</a>
+                <a href={gpxUrl} className="rounded-2xl bg-white/10 px-4 py-3 text-center text-sm font-black text-white ring-1 ring-white/15 hover:bg-white/15">Last ned GPX</a>
+              </div>
             </section>
           </div>
 
-          <div className="border-t border-emerald-900/10 p-6 md:p-8">
-            <section className="mb-6 rounded-[1.8rem] bg-white p-5 ring-1 ring-emerald-900/10">
-              <h2 className="text-2xl font-black">Åpne turen i kart</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-600">Velg kartløsningen som passer. Turrute/GPX viser ruten som ligger i appen, mens Google og Apple kan beregne egen vei til start eller mellom start og slutt.</p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                <Link href={`/turer/${trail.slug}/kart`} className="rounded-2xl bg-emerald-950 px-4 py-3 text-center text-sm font-black text-white hover:bg-emerald-900">Se rute i Turrute</Link>
-                <a href={googleMapsUrl} target="_blank" rel="noreferrer" className="rounded-2xl bg-emerald-50 px-4 py-3 text-center text-sm font-black text-emerald-950 ring-1 ring-emerald-900/10 hover:bg-emerald-100">{googleMapsLabel}</a>
-                <a href={appleMapsUrl} target="_blank" rel="noreferrer" className="rounded-2xl bg-slate-50 px-4 py-3 text-center text-sm font-black text-slate-900 ring-1 ring-slate-900/10 hover:bg-slate-100">Apple Maps</a>
-                <a href={gpxUrl} className="rounded-2xl bg-sky-50 px-4 py-3 text-center text-sm font-black text-sky-950 ring-1 ring-sky-900/10 hover:bg-sky-100">Last ned GPX</a>
-                <a href={osmUrl} target="_blank" rel="noreferrer" className="rounded-2xl bg-stone-50 px-4 py-3 text-center text-sm font-black text-stone-900 ring-1 ring-stone-900/10 hover:bg-stone-100">OpenStreetMap</a>
-              </div>
-            </section>
-            <h2 className="text-2xl font-black">Tags og datakilde</h2>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {trail.tags.map((tag) => <span key={tag} className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 ring-1 ring-slate-900/10">{tag}</span>)}
-            </div>
-            <p className="mt-4 rounded-2xl bg-amber-50 p-4 text-xs font-semibold leading-6 text-amber-900">Google Maps brukes selektivt: gode lineære landruter åpnes som start/slutt-navigasjon, mens rundtur, ukjent rute og sjø-/AnnenRute åpnes som veibeskrivelse til startpunkt. Den eksakte Kartverket-ruten vises i Turrute-kartet på denne siden.</p>
-            <p className="mt-5 text-xs leading-6 text-slate-500">Datakilde: {source}. {realRoute ? 'Denne turen har importert rutegeometri fra Kartverket/Geonorge Turrutebasen.' : 'Denne turen bruker demo-GeoJSON eller lokal fallback og bør erstattes med ekte rutedata.'} {trail.data_quality_note ?? ''}</p>
+          <div className="border-t border-emerald-900/10 p-5 md:px-8 md:pb-8">
+            <p className="text-xs leading-6 text-slate-500">Datakilde: {source}. {realRoute ? 'Denne turen bruker rutegeometri fra Kartverket/Turrutebasen.' : 'Denne turen bruker en kuratert app-rute som bør erstattes eller forbedres med tettere geometri om dere vil gi virkelig detaljert mobilnavigasjon.'} {trail.data_quality_note ?? ''}</p>
           </div>
         </div>
       </article>
+
+      <div className="fixed inset-x-0 bottom-16 z-20 px-4 md:hidden">
+        <div className="mx-auto flex max-w-md gap-2 rounded-[1.4rem] bg-white/95 p-2 shadow-2xl ring-1 ring-emerald-900/10 backdrop-blur">
+          <Link href={`/turer/${trail.slug}/kart`} className="flex-1 rounded-[1rem] bg-emerald-950 px-4 py-3 text-center text-sm font-black text-white">Start tur</Link>
+          <a href={googleMapsUrl} target="_blank" rel="noreferrer" className="rounded-[1rem] bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-950 ring-1 ring-emerald-900/10">Kartapp</a>
+        </div>
+      </div>
       <AppBottomNav active="trails" />
     </main>
   );
@@ -143,4 +152,8 @@ function Metric({ label, value }: { label: string; value: string | number }) {
 
 function Info({ label, value }: { label: string; value: string }) {
   return <div className="flex justify-between gap-4 py-3 text-sm"><dt className="font-bold text-slate-500">{label}</dt><dd className="text-right font-black text-slate-900">{value}</dd></div>;
+}
+
+function Badge({ children }: { children: ReactNode }) {
+  return <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">{children}</span>;
 }

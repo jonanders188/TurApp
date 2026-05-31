@@ -1,6 +1,7 @@
 import type { Trail } from '@/types/trail';
 
 export type LngLat = [number, number];
+export type GeometryQuality = 'minimal' | 'coarse' | 'good' | 'detailed';
 
 export function getTrailCoordinates(trail: Trail): LngLat[] {
   const geometry = trail.route_geojson as any;
@@ -66,4 +67,50 @@ export function hasRealRoute(trail: Trail) {
 
 export function hasRouteGeometry(trail: Trail) {
   return getTrailCoordinates(trail).length > 1;
+}
+
+export function getRoutePointCount(trail: Trail) {
+  return getTrailCoordinates(trail).length;
+}
+
+export function haversineKm([lng1, lat1]: LngLat, [lng2, lat2]: LngLat) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+export function isLoopTrail(trail: Trail) {
+  const points = getTrailCoordinates(trail);
+  if (points.length < 2) return false;
+  return haversineKm(points[0], points[points.length - 1]) < 0.35;
+}
+
+export function getGeometryQuality(trail: Trail): GeometryQuality {
+  const count = getRoutePointCount(trail);
+  if (count >= 40) return 'detailed';
+  if (count >= 12) return 'good';
+  if (count >= 5) return 'coarse';
+  return 'minimal';
+}
+
+export function getGeometryQualityLabel(trail: Trail) {
+  const quality = getGeometryQuality(trail);
+  if (quality === 'detailed') return 'Detaljert spor';
+  if (quality === 'good') return 'God rutedetalj';
+  if (quality === 'coarse') return 'Skjematisk rute';
+  return 'Kun grov rute';
+}
+
+export function getGeometryQualityMessage(trail: Trail) {
+  const quality = getGeometryQuality(trail);
+  if (quality === 'detailed') return 'Denne turen har nok punkter til å gi en detaljert rutevisning mens du går.';
+  if (quality === 'good') return 'Denne turen har brukbar geometri for å velge tur og følge hovedløpet på kart.';
+  if (quality === 'coarse') return 'Ruten er fin for å forstå formen på turen, men sporet er for grovt til presis stinavigasjon.';
+  return 'Vi har foreløpig bare et grovt ruteutkast. For pen og trygg turvisning bør denne erstattes med tettere GPX/linjegeometri.';
+}
+
+export function getRouteShapeLabel(trail: Trail) {
+  return isLoopTrail(trail) ? 'Rundtur' : 'Fra A til B';
 }
