@@ -64,7 +64,8 @@ export function coordinatesToSvgPath(points: LngLat[], project: (point: LngLat) 
 export function hasRealRoute(trail: Trail) {
   return trail.source === 'kartverket_turrutebasen_wfs'
     || trail.source === 'kartverket_turrutebasen_live'
-    || trail.source === 'osm_overpass';
+    || trail.source === 'osm_overpass'
+    || trail.source === 'osm_geofabrik';
 }
 
 export function hasRouteGeometry(trail: Trail) {

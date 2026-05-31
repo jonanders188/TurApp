@@ -10,3 +10,12 @@ node_modules/
 *.zip
 *.zip
 tsconfig.tsbuildinfo
+
+# Local OSM/Geofabrik cache and generated imports
+data/osm/
+data/imported/*.pbf
+data/imported/*.geojson
+data/imported/osm-*.json
+data/imported/vestfold-*.json
+data/imported/vestfold-*.geojson
+data/imported/vestfold-*.pbf

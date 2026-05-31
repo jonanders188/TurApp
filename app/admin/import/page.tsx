@@ -10,7 +10,7 @@ type ImportStatus = {
   ok: boolean;
   source?: string;
   note?: string;
-  counts?: { raw_turruter: number; imported_trails: number; curated_trails: number };
+  counts?: { raw_turruter: number; imported_trails: number; curated_trails: number; osm_raw_elements?: number; osm_candidates?: number; osm_pois?: number; osm_trails?: number };
   latestRun?: any;
   errors?: string[];
 };
@@ -21,7 +21,7 @@ async function getStatus(): Promise<ImportStatus> {
       ok: false,
       source: 'local',
       note: 'Mangler Supabase service/secret key. Appen kan vise lokal JSON, men ikke sjekke levende import.',
-      counts: { raw_turruter: 0, imported_trails: 0, curated_trails: 0 },
+      counts: { raw_turruter: 0, imported_trails: 0, curated_trails: 0, osm_raw_elements: 0, osm_candidates: 0, osm_pois: 0, osm_trails: 0 },
     };
   }
 
@@ -31,6 +31,10 @@ async function getStatus(): Promise<ImportStatus> {
     const imported = await supabase.from('trails').select('*', { count: 'exact', head: true }).eq('source', 'kartverket_turrutebasen_wfs');
     const curated = await supabase.from('trails').select('*', { count: 'exact', head: true }).eq('curated', true);
     const latest = await supabase.from('import_runs').select('*').order('created_at', { ascending: false }).limit(1).maybeSingle();
+    const osmRaw = await supabase.from('osm_raw_elements').select('*', { count: 'exact', head: true });
+    const osmCandidates = await supabase.from('osm_route_candidates').select('*', { count: 'exact', head: true });
+    const osmPois = await supabase.from('osm_pois').select('*', { count: 'exact', head: true });
+    const osmTrails = await supabase.from('trails').select('*', { count: 'exact', head: true }).eq('source', 'osm_overpass');
 
     return {
       ok: true,
@@ -39,19 +43,23 @@ async function getStatus(): Promise<ImportStatus> {
         raw_turruter: raw.count ?? 0,
         imported_trails: imported.count ?? 0,
         curated_trails: curated.count ?? 0,
+        osm_raw_elements: osmRaw.count ?? 0,
+        osm_candidates: osmCandidates.count ?? 0,
+        osm_pois: osmPois.count ?? 0,
+        osm_trails: osmTrails.count ?? 0,
       },
       latestRun: latest.data ?? null,
-      errors: [raw.error?.message, imported.error?.message, curated.error?.message, latest.error?.message].filter(Boolean) as string[],
+      errors: [raw.error?.message, imported.error?.message, curated.error?.message, latest.error?.message, osmRaw.error?.message, osmCandidates.error?.message, osmPois.error?.message, osmTrails.error?.message].filter(Boolean) as string[],
     };
   } catch (error) {
-    return { ok: false, note: error instanceof Error ? error.message : String(error), counts: { raw_turruter: 0, imported_trails: 0, curated_trails: 0 } };
+    return { ok: false, note: error instanceof Error ? error.message : String(error), counts: { raw_turruter: 0, imported_trails: 0, curated_trails: 0, osm_raw_elements: 0, osm_candidates: 0, osm_pois: 0, osm_trails: 0 } };
   }
 }
 
 
 export default async function ImportAdminPage() {
   const status = await getStatus();
-  const counts = status.counts ?? { raw_turruter: 0, imported_trails: 0, curated_trails: 0 };
+  const counts = status.counts ?? { raw_turruter: 0, imported_trails: 0, curated_trails: 0, osm_raw_elements: 0, osm_candidates: 0, osm_pois: 0, osm_trails: 0 };
 
   return (
     <main className="min-h-screen bg-[#f4f7f2] pb-24 text-slate-950 md:pb-0">
@@ -66,16 +74,19 @@ export default async function ImportAdminPage() {
 
         <header className="mt-8 rounded-[2.4rem] bg-white p-6 shadow-xl shadow-emerald-950/10 ring-1 ring-emerald-900/10 md:p-9">
           <p className="text-xs font-black uppercase tracking-[0.26em] text-emerald-700">Data</p>
-          <h1 className="mt-3 text-5xl font-black tracking-tight md:text-7xl">Turrutebasen-import</h1>
+          <h1 className="mt-3 text-5xl font-black tracking-tight md:text-7xl">Dataimport</h1>
           <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
-            Dette er koblingen som gjør at appen kan få levende ruter. Importen kan nå kjøres fra UI-et via en Next.js server route, lagre rådata i Supabase og bygge app-klare turer med ekte rutegeometri.
+            Dette er datagrunnlaget bak Turrute. OSM lagres nå bredt som råelementer, rutekandidater og praktiske punkter, men appen viser bare ruter som passer produktet og har god nok kvalitet.
           </p>
         </header>
 
-        <div className="mt-6 grid gap-3 md:grid-cols-3">
+        <div className="mt-6 grid gap-3 md:grid-cols-3 lg:grid-cols-6">
           <Stat value={String(counts.raw_turruter)} label="råruter importert" />
           <Stat value={String(counts.imported_trails)} label="ekte app-turer" />
           <Stat value={String(counts.curated_trails)} label="kuraterte turer" />
+          <Stat value={String(counts.osm_raw_elements ?? 0)} label="OSM råelementer" />
+          <Stat value={String(counts.osm_candidates ?? 0)} label="OSM kandidater" />
+          <Stat value={String(counts.osm_pois ?? 0)} label="OSM punkter" />
         </div>
 
 
@@ -87,9 +98,9 @@ export default async function ImportAdminPage() {
           <div className="rounded-[2rem] bg-slate-950 p-6 text-white shadow-xl">
             <h2 className="text-3xl font-black tracking-tight">Terminal som backup</h2>
             <p className="mt-3 text-sm leading-7 text-slate-300">Dette er fortsatt nyttig for utvikling og feilsøking. UI-knappen over bruker samme serverlogikk som appen.</p>
-            <pre className="mt-5 overflow-x-auto rounded-[1.2rem] bg-black/40 p-4 text-sm text-emerald-100"><code>{`npm run turrutebasen:import:vestfold
-npm run turrutebasen:build-trails
-npm run turrutebasen:seed`}</code></pre>
+            <pre className="mt-5 overflow-x-auto rounded-[1.2rem] bg-black/40 p-4 text-sm text-emerald-100"><code>{`npm run osm:import
+npm run osm:seed
+# evt: npm run osm:seed:replace-demo`}</code></pre>
             <p className="mt-4 text-xs leading-6 text-slate-400">Krever TURRUTE_SUPABASE_SERVICE_ROLE_KEY=sb_secret_... i .env.local.</p>
           </div>
 
