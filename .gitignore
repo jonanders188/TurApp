@@ -1,15 +1,22 @@
+# dependencies
 node_modules/
+
+# next/build
 .next/
-.vercel/
-.env
-.env.local
-.env.*.local
-*.log
-.DS_Store
-*.bak.*
-*.zip
-*.zip
+out/
+dist/
+build/
 tsconfig.tsbuildinfo
+*.log
+
+# local env/secrets
+.env
+.env.*
+!.env.example
+
+# local OS/editor
+.DS_Store
+*.zip
 
 # Local OSM/Geofabrik cache and generated imports
 data/osm/
