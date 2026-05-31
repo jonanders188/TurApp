@@ -11,6 +11,7 @@ import type { Trail, TrailFilters } from '@/types/trail';
 import curatedVestfoldTrails from '@/data/curated-vestfold-trails.json';
 import { isDisplayableTrail, qualityScore, sourcePriorityScore } from '@/lib/routeQuality';
 import { geocodePlace, sortTrailsByDistanceFromPlace, type GeocodedPlace } from '@/lib/geocoding';
+import { withInferredMunicipality } from '@/lib/municipality';
 
 const suitabilityColumn: Record<NonNullable<TrailFilters['suitable']>, keyof Trail> = {
   stroller: 'suitable_stroller',
@@ -88,7 +89,9 @@ async function finalizeTrails(
   source: TrailSource,
   error: string | null = null,
 ) {
-  const filtered = trails
+  const enriched = trails.map(withInferredMunicipality);
+
+  const filtered = enriched
     .filter((trail) => matchesTrailFilters(trail, filters))
     .filter(isDisplayableTrail)
     .sort((a, b) => sourcePriorityScore(b) - sourcePriorityScore(a)
@@ -157,7 +160,7 @@ export async function getTrailBySlug(slug: string) {
         .maybeSingle();
 
       if (slugError) throw new Error(slugError.message);
-      if (bySlug) return { trail: bySlug as Trail, source: 'supabase' as const, error: null };
+      if (bySlug) return { trail: withInferredMunicipality(bySlug as Trail), source: 'supabase' as const, error: null };
 
       const { data: byId, error: idError } = await supabase
         .from('trails')
@@ -168,11 +171,11 @@ export async function getTrailBySlug(slug: string) {
         .maybeSingle();
 
       if (idError) throw new Error(idError.message);
-      if (byId) return { trail: byId as Trail, source: 'supabase' as const, error: null };
+      if (byId) return { trail: withInferredMunicipality(byId as Trail), source: 'supabase' as const, error: null };
     } catch (error) {
       const trail = localVestfoldTrails.find((trail) => trail.slug === cleanSlug || trail.id === cleanSlug) ?? null;
       return {
-        trail,
+        trail: trail ? withInferredMunicipality(trail) : null,
         source: 'curated-json' as const,
         error: trail ? null : error instanceof Error ? error.message : String(error),
       };
@@ -180,11 +183,11 @@ export async function getTrailBySlug(slug: string) {
   }
 
   const trail = localVestfoldTrails.find((trail) => trail.slug === cleanSlug || trail.id === cleanSlug) ?? null;
-  return { trail, source: 'curated-json' as const, error: trail ? null : 'Trail not found' };
+  return { trail: trail ? withInferredMunicipality(trail) : null, source: 'curated-json' as const, error: trail ? null : 'Trail not found' };
 }
 
 export function getMunicipalities(trails: Trail[]) {
-  return Array.from(new Set(trails.map((trail) => trail.municipality))).sort((a, b) => a.localeCompare(b, 'no'));
+  return Array.from(new Set(trails.map((trail) => withInferredMunicipality(trail).municipality))).sort((a, b) => a.localeCompare(b, 'no'));
 }
 
 export function getBestTrailNow(trails: Trail[]) {

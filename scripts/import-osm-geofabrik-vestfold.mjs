@@ -31,6 +31,47 @@ const POI_DEFINITIONS = [
   { kind: 'bus_stop', label: 'Kollektivstopp', key: 'highway', values: ['bus_stop'] },
 ];
 
+
+const MUNICIPALITY_CENTERS = [
+  { name: 'Horten', lat: 59.4172, lng: 10.4834 },
+  { name: 'Holmestrand', lat: 59.4876, lng: 10.3176 },
+  { name: 'Tønsberg', lat: 59.2675, lng: 10.4076 },
+  { name: 'Færder', lat: 59.1902, lng: 10.4264 },
+  { name: 'Sandefjord', lat: 59.1312, lng: 10.2166 },
+  { name: 'Larvik', lat: 59.0533, lng: 10.0352 },
+  { name: 'Porsgrunn', lat: 59.1405, lng: 9.6561 },
+  { name: 'Skien', lat: 59.2096, lng: 9.6090 },
+  { name: 'Bamble', lat: 59.0018, lng: 9.7457 },
+  { name: 'Siljan', lat: 59.2826, lng: 9.7109 },
+  { name: 'Kongsberg', lat: 59.6686, lng: 9.6502 },
+  { name: 'Drammen', lat: 59.7439, lng: 10.2045 },
+];
+
+function inferMunicipalityFromPoint(lat, lng) {
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+  const nearest = MUNICIPALITY_CENTERS
+    .map((m) => ({ name: m.name, km: haversineKm([lng, lat], [m.lng, m.lat]) }))
+    .sort((a, b) => a.km - b.km)[0];
+  return nearest && nearest.km <= 85 ? nearest.name : null;
+}
+
+function inferMunicipalityFromCoords(coords) {
+  if (!coords.length) return null;
+  let minLng = Infinity;
+  let maxLng = -Infinity;
+  let minLat = Infinity;
+  let maxLat = -Infinity;
+  for (const [lng, lat] of coords) {
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
+    minLng = Math.min(minLng, lng);
+    maxLng = Math.max(maxLng, lng);
+    minLat = Math.min(minLat, lat);
+    maxLat = Math.max(maxLat, lat);
+  }
+  if (![minLng, maxLng, minLat, maxLat].every(Number.isFinite)) return null;
+  return inferMunicipalityFromPoint((minLat + maxLat) / 2, (minLng + maxLng) / 2);
+}
+
 function run(command, args, options = {}) {
   console.log(`$ ${command} ${args.join(' ')}`);
   const res = spawnSync(command, args, { stdio: 'inherit', ...options });
@@ -176,11 +217,14 @@ function qualityScore(coords, tags = {}) {
 }
 
 function municipalityFromTags(tags = {}) {
-  const text = `${tags['addr:municipality'] || ''} ${tags.operator || ''} ${tags.description || ''} ${tags.name || ''}`;
-  for (const name of ['Horten', 'Tønsberg', 'Tonsberg', 'Færder', 'Faerder', 'Larvik', 'Sandefjord', 'Holmestrand']) {
+  const direct = tags['addr:municipality'] || tags.municipality || tags.kommune || tags.kommunenavn;
+  if (direct) return String(direct).replace('Tonsberg', 'Tønsberg').replace('Faerder', 'Færder');
+
+  const text = `${tags.operator || ''} ${tags.description || ''} ${tags.name || ''}`;
+  for (const name of ['Horten', 'Tønsberg', 'Tonsberg', 'Færder', 'Faerder', 'Larvik', 'Sandefjord', 'Holmestrand', 'Porsgrunn', 'Skien', 'Bamble', 'Siljan']) {
     if (text.toLowerCase().includes(name.toLowerCase())) return name === 'Tonsberg' ? 'Tønsberg' : name === 'Faerder' ? 'Færder' : name;
   }
-  return 'Vestfold';
+  return null;
 }
 
 function makeRawElement(feature, index) {
@@ -249,7 +293,7 @@ function makeRouteCandidate(feature, index, rejectionReason = null) {
     osm_type: type,
     osm_id: String(id),
     name,
-    municipality: municipalityFromTags(tags),
+    municipality: municipalityFromTags(tags) || inferMunicipalityFromCoords(coords) || 'Vestfold',
     area: tags.place || tags.locality || null,
     distance_km: Number(km.toFixed(2)),
     estimated_minutes: Math.max(15, Math.round(km * 17)),
@@ -300,10 +344,10 @@ function trailFromCandidate(candidate) {
     lat: candidate.start_lat,
     lng: candidate.start_lng,
     route_geojson: candidate.route_geojson,
-    source: 'osm_overpass',
+    source: 'osm_geofabrik',
     source_category: candidate.osm_type === 'relation' ? 'osm_route_relation' : 'osm_path_way',
     source_route_id: candidate.osm_id,
-    curated: true,
+    curated: false,
     published: candidate.published_candidate,
     is_demo: false,
     accessibility_verified_at: null,
